@@ -8,7 +8,7 @@ class OdooClient {
 
   private odoo: any;
 
-  public async findUserByRfidUuid(rfidUuid : string): Promise<any> {
+  public async findUserByRfidUuid(rfidUuid : string): Promise<Object[]> {
     try {
       await this.odoo.connect();
 
@@ -17,8 +17,8 @@ class OdooClient {
          ['x_RFID_Card_UUID', '=', rfidUuid]], // ids to search for
          ['x_RFID_Card_UUID', 'name']]; // fields to return
       const result = await this.odoo.execute_kw('res.partner', 'search_read', params);
-
       console.log('result: ', result);
+      return result;
     } catch (e) {
       console.error(e);
     }
