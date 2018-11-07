@@ -21,6 +21,11 @@ $ npm install
 * Unter ./config/ eine Kopie von "default.sample.json" anlegen und zu "default.json" umbennen
 * Die jeweiligen Parameter anpassen
 
+### Tests ausführen
+```bash
+$ npm run test
+```
+
 ### Starten der EntwicklungsumgebungUmgebung
 ```bash
 $ npm run dev
