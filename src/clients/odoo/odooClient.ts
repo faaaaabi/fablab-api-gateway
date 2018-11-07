@@ -31,7 +31,7 @@ class OdooClient {
   }
 }
 
-let client = new odooClient();
+const client = new OdooClient();
 client.readRecord();
 
-export default odooClient
+export default OdooClient;
