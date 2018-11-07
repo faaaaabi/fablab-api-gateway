@@ -1,13 +1,13 @@
-var Odoo = require('odoo-xmlrpc');
+var Odoo = require('../../libs/odoo-xmlrpc');
 
 class odooClient {
     constructor() {
         this.odoo = new Odoo({
-            url: 'http://odoo-fablab.local',
+            url: 'http://localhost',
             port: 8069,
             db: 'odoo_fablab',
             username: 'f@bian-meyer.de',
-            password: 'wGbViyFzLpRrYJ9gYbkd63z6iV39gAaAySau'
+            password: 'IVm3O8nb0T13nOYlh9au'
         })
     }
 
@@ -22,6 +22,7 @@ class odooClient {
                 ['name', 'country_id', 'comment'] // fields to return
             ];
             let result = await this.odoo.execute_kw('res.partner', 'search_read', params);
+            let result2= await this.odoo.exec_workflow('')
     
             console.log('result: ', result);
         } catch (e) {
