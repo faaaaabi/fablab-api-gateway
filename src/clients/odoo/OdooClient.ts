@@ -1,6 +1,6 @@
 class OdooClient {
-  constructor(odooXmlRpc) {
-    this.odooXmlRpcClient = odooXmlRpc;
+  constructor(odooXmlRpcClient) {
+    this.odooXmlRpcClient = odooXmlRpcClient;
   }
 
   private odooXmlRpcClient: any;

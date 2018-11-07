@@ -42,7 +42,7 @@ describe('odoo Client', async () : Promise<any> => {
     .to.have.been.calledWith('res.partner', 'search_read', expectedParamsArray);
   });
 
-  it('returns an array with a valid JSON', async () => {
+  it('returns a valid JSON', async () => {
     executeKwStub.returns([{ x_RFID_Card_UUID: '9D:90:9C:1E', name: 'Fabian Meyer', id: 43 }]);
     const testRfidUuid = '9D:90:9C:1E';
     const expectedOutput = { x_RFID_Card_UUID: '9D:90:9C:1E', name: 'Fabian Meyer', id: 43 };
