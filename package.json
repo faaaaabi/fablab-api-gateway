@@ -12,7 +12,7 @@
   "author": "Fabian meyer <f@bian-meyer.de>",
   "license": "ISC",
   "engines": {
-    "node": ">= 11.1.0" 
+    "node": ">= 11.1.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
