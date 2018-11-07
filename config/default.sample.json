@@ -1,0 +1,12 @@
+{
+  "API": {
+    "port": 8081
+    },
+  "odoo-client": {
+    "url": "http://localhost",
+    "port": 8069,
+    "db": "name_of_db",
+    "username": "username",
+    "password": "password"
+  }
+}

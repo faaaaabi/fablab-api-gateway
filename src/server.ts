@@ -1,6 +1,7 @@
 import app from './app';
+const config = require('config');
 
-const port: number = 8081;
+const port: number = config.get('API.port');
 
 app.get('/geraete', (req, res) => {
   res.send('hello world');

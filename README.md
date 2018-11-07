@@ -16,10 +16,16 @@ Node Version >= 11.1.0
 ```bash
 $ npm install
 ```
+
+### Konfiguration anpassen
+* Unter ./config/ eine Kopie von "default.sample.json" anlegen und zu "default.json" umbennen
+* Die jeweiligen Parameter anpassen
+
 ### Starten der EntwicklungsumgebungUmgebung
 ```bash
 $ npm run dev
 ```
+
 ### Starten der Produktivumgebung
 ```bash
 $ npm start

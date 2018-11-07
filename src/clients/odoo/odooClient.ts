@@ -1,14 +1,9 @@
 const odoo = require('../../libs/odoo-xmlrpc');
+const config = require('config');
 
 class OdooClient {
   constructor() {
-    this.odoo = new odoo({
-      url: 'http://localhost',
-      port: 8069,
-      db: 'odoo_fablab',
-      username: 'f@bian-meyer.de',
-      password: 'IVm3O8nb0T13nOYlh9au',
-    });
+    this.odoo = new odoo(config.get('odoo-client'));
   }
 
   private odoo: any;
@@ -31,6 +26,6 @@ class OdooClient {
 }
 
 const client = new OdooClient();
-client.findUserByRfidUuid('9D:90:9C:1B');
+client.findUserByRfidUuid('9D:90:9C:1E');
 
 export default OdooClient;

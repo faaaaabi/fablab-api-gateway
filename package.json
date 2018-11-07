@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "config": "^2.0.1",
     "express": "^4.16.4",
     "url": "^0.11.0",
     "xmlrpc": "^1.3.2"
