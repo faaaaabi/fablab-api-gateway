@@ -32,12 +32,12 @@ $ npm run dev
 ```
 
 ### Starten der Produktivumgebung
-Führt den letzten build im Ordner "dist" aus.
+Führt den letzten build im Ordner "dist" aus, falls vorhanden.
 ```bash
 $ npm start
 ```
 
-Für das erneute builden und starten:
+**Nach dem Clonen dieses Repos, für den intialen build** und für das erneute builden und starten:
 ```bash
 $ npm run prod
 ```
