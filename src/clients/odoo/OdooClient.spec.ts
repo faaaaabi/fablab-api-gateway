@@ -89,6 +89,7 @@ describe('odooClient.getSecurityBriefingState', async () => {
     const testRfidUuid = '9D:90:9C:1X';
     executeKwStub.returns([]);
 
+    // return nessecary for mocha to compute the promise
     return (expect(odooClient.getSecurityBriefingState(testRfidUuid))
     .to.be.rejectedWith(Error, 'User not found'));
   });

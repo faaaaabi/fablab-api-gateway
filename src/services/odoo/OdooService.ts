@@ -13,6 +13,12 @@ class OdooService {
     return user;
   }
 
+  public async isUserAllowedToUse(rfidCardUUID: string) : Promise<Object> {
+    const securityBriefingState = await this.odooClient.getSecurityBriefingState(rfidCardUUID);
+
+    return securityBriefingState;
+  }
+
 }
 
 export default OdooService;

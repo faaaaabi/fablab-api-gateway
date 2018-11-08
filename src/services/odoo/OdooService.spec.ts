@@ -14,13 +14,16 @@ describe('odooService.userHadSecurityBriefing', () => {
   const odooClient : OdooClient = new OdooClient(xmlRpcclient);
   const odooService : OdooService = new OdooService(odooClient);
   let findUserByRfidUuidStub;
+  let getSecurityBriefingStateStub;
 
   beforeEach(() : void => {
     findUserByRfidUuidStub = sinon.stub(odooClient, 'findUserByRfidUuid');
+    getSecurityBriefingStateStub = sinon.stub(odooClient, 'getSecurityBriefingState');
   });
 
   afterEach(() : void => {
     findUserByRfidUuidStub.restore();
+    getSecurityBriefingStateStub.restore();
   });
 
   it('should return a valid user object for a valid UUID', async () => {
@@ -35,6 +38,24 @@ describe('odooService.userHadSecurityBriefing', () => {
 
   });
 
-  it('should return true if a user with a given UUID had a security briefing');
-  
+  it('should return true if a user with a given UUID had a security briefing', async () => {
+    getSecurityBriefingStateStub
+    .returns(true);
+
+    const testRfidUuid = '9D:90:9C:1E';
+    const securityBriefingState = await odooService.isUserAllowedToUse(testRfidUuid);
+
+    expect(securityBriefingState).to.be.true;
+  });
+
+  it('should return true if a user with a given UUID had a security briefing', async () => {
+    getSecurityBriefingStateStub
+    .returns(false);
+
+    const testRfidUuid = '9D:90:9C:1F';
+    const securityBriefingState = await odooService.isUserAllowedToUse(testRfidUuid);
+
+    expect(securityBriefingState).to.be.false;
+  });
+
 });
