@@ -10,6 +10,23 @@
     "prod": "npm run build && npm start",
     "test": "nyc mocha -r ts-node/register src/**/*.spec.ts"
   },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "dist/",
+      "coverage",
+      "src/libs/"
+    ],
+    "reporter": [
+      "html",
+      "text"
+    ],
+    "all": true  
+  },
   "author": "Fabian meyer <f@bian-meyer.de>",
   "license": "ISC",
   "engines": {
@@ -36,6 +53,7 @@
     "body-parser": "^1.18.3",
     "config": "^2.0.1",
     "express": "^4.16.4",
+    "morgan": "^1.9.1",
     "url": "^0.11.0",
     "xmlrpc": "^1.3.2"
   }

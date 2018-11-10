@@ -2,3 +2,4 @@ node_modules/
 dist/
 config/default.json
 .nyc_output/
+coverage/
