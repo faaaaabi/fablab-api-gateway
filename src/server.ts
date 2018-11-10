@@ -1,6 +1,6 @@
 import app from './app';
 const config = require('config');
-const userRoutes = require('./routes/user');
+const userRoutes = require('./routes/userRoute');
 
 const port: number = config.get('API.port');
 
