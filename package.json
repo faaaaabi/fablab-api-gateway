@@ -16,7 +16,7 @@
       ".tsx"
     ],
     "exclude": [
-      "**/*.d.ts",
+      "**/*.spec.ts",
       "dist/",
       "coverage",
       "src/libs/"
