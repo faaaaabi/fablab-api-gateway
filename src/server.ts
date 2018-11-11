@@ -1,6 +1,6 @@
 import app from './app';
 import OdooService from './services/odoo/OdooService';
-import userRoutes from './routes/userRoutes';
+import userRoutes from './routes/users/userRoutes';
 
 const config = require('config');
 const odooXmlRpc = require('./libs/odoo-xmlrpc');

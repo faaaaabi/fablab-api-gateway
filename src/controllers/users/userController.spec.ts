@@ -1,8 +1,8 @@
-import { expect, sinon } from '../test-helpers';
+import { expect, sinon } from '../../test-helpers';
 
-const odooXmlRpc = require('../libs/odoo-xmlrpc');
-import OdooService from '../services/odoo/OdooService';
-import OdooClient from '../clients/odoo/OdooClient';
+const odooXmlRpc = require('../../libs/odoo-xmlrpc');
+import OdooService from '../../services/odoo/OdooService';
+import OdooClient from '../../clients/odoo/OdooClient';
 const config = require('config');
 import { isAllowedToUseMachine } from './userController';
 

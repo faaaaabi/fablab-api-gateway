@@ -1,4 +1,4 @@
-import { expect, sinon, chai } from '../test-helpers';
+import { expect, sinon, chai } from '../../test-helpers';
 const chaiHttp = require('chai-http');
 const supertest = require('supertest');
 chai.use(chaiHttp);
@@ -6,9 +6,9 @@ chai.use(chaiHttp);
 import userRoutes from './userRoutes';
 
 const config = require('config');
-const odooXmlRpc = require('../libs/odoo-xmlrpc');
-import OdooService from '../services/odoo/OdooService';
-import OdooClient from '../clients/odoo/OdooClient';
+const odooXmlRpc = require('../../libs/odoo-xmlrpc');
+import OdooService from '../../services/odoo/OdooService';
+import OdooClient from '../../clients/odoo/OdooClient';
 
 const odooService = new OdooService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
 let isUserAllowedToUseStub;
