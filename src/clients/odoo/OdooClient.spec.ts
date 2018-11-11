@@ -1,17 +1,11 @@
+import { expect, sinon } from '../../test-helpers';
 import OdooClient from './OdooClient';
-const chai = require('chai');
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
-const expect = chai.expect;
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
-chai.use(sinonChai);
 
 const config = require('config');
 const odooXmlRpc = require('../../libs/odoo-xmlrpc');
-
 const xmlRpcclient = new odooXmlRpc(config.get('odoo-client'));
 const odooClient : OdooClient = new OdooClient(xmlRpcclient);
+
 let executeKwStub;
 let connectStub;
 

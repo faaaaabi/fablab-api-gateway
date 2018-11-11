@@ -1,18 +1,9 @@
-const odooXmlRpc = require('../libs/odoo-xmlrpc');
-import OdooService from '../services/odoo/OdooService';
-import OdooClient from '../clients/odoo/OdooClient';
-const config = require('config');
-
-// Service intialization
-const odooService = new OdooService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
-
-const isAllowedToUseMachine = async (req, res) => {
+const isAllowedToUseMachine = odooService => async (req, res, next) => {
   try {
     const isAllowedToUSeMachine : Boolean = await odooService.isUserAllowedToUse(req.params.uuid);
     res.send({ isAllowed : isAllowedToUSeMachine });
   } catch (e) {
-    console.error(e, req.params);
-    res.send(e);
+    next(e);
   }
 };
 
