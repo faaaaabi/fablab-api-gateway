@@ -8,7 +8,8 @@
     "dev": "ts-node ./src/server.ts",
     "start": "node ./dist/server.js",
     "prod": "npm run build && npm start",
-    "test": "nyc mocha -r ts-node/register \"./src/**/*.spec.ts\""
+    "test": "mocha -r ts-node/register \"./src/**/*.spec.ts\"",
+    "test-coverage": "nyc mocha -r ts-node/register \"./src/**/*.spec.ts\""
   },
   "nyc": {
     "extension": [
