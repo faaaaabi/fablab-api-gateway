@@ -25,7 +25,7 @@ describe('userController', () => {
     const req = {
       body: {},
       params: {
-        uuid: '9D:90:9C:1X', // for testing get, delete and update vehicle
+        uuid: '9D:90:9C:1E', // for testing get, delete and update vehicle
       },
     };
     const res = {
@@ -36,5 +36,27 @@ describe('userController', () => {
     await isAllowedToUseMachine(odooService)(req, res, next);
     expect(res.send.firstCall.args[0]).to.deep.equal({ isAllowed: true });
   });
+
+  /*it('should with 404 status code and valid error JSON', async () => {
+    //isUserAllowedToUseStub.throws('User not found');
+    isUserAllowedToUseStub.returns(new Promise((reject) => {
+      reject(new Error('User not found'));
+    }));
+    const req = {
+      body: {},
+      params: {
+        uuid: '9D:90:9C:1X', // for testing get, delete and update vehicle
+      },
+    };
+    const res = {
+      send: sinon.spy(),
+      status: sinon.spy(),
+    };
+    const next = sinon.spy();
+
+    await isAllowedToUseMachine(odooService)(req, res, next);
+    //onsole.log('reees', res);
+    expect(res.send).to.equal(404);
+  });*/
 
 });
