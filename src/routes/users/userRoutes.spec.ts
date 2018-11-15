@@ -23,7 +23,7 @@ afterEach(() : void => {
   isUserAllowedToUseStub.restore();
 });
 
-describe('Route GET /user/:uuid/checkMachinePermission', () => {
+describe('Route GET /users/:uuid/checkMachinePermission', () => {
   it('should return a vlaid JSON for a valid UUID', async () => {
     isUserAllowedToUseStub.returns(new Promise((resolve) => {
       resolve(true);
@@ -34,7 +34,7 @@ describe('Route GET /user/:uuid/checkMachinePermission', () => {
     app.use('/user', routes);
     const request = supertest(app);
 
-    const res = await request.get('/user/9D:90:9C:1X/checkMachinePermission');
+    const res = await request.get('/users/9D:90:9C:1X/checkMachinePermission');
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal({ isAllowed : true });
   });
@@ -49,7 +49,7 @@ describe('Route GET /user/:uuid/checkMachinePermission', () => {
     app.use('/user', routes);
     const request = supertest(app);
 
-    const res = await request.get('/user/9D:90:9C:1X/checkMachinePermission');
+    const res = await request.get('/users/9D:90:9C:1X/checkMachinePermission');
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal({ isAllowed : true });
   });
