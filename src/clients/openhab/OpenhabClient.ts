@@ -1,5 +1,3 @@
-import { Result } from "range-parser";
-
 const axios = require('axios');
 
 class OpenhabClient {
@@ -37,7 +35,7 @@ class OpenhabClient {
     }
   }
 
-  public async getItemState(itemName : string) : Promise<string> {
+  public async getItem(itemName : string) : Promise<any> {
     let result : string;
     try {
       result = await axios
