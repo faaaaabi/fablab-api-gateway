@@ -31,7 +31,7 @@ describe('Route GET /users/:uuid/checkMachinePermission', () => {
 
     const routes = userRoutes(odooService);
     const app = express();
-    app.use('/user', routes);
+    app.use('/users', routes);
     const request = supertest(app);
 
     const res = await request.get('/users/9D:90:9C:1X/checkMachinePermission');
@@ -46,7 +46,7 @@ describe('Route GET /users/:uuid/checkMachinePermission', () => {
 
     const routes = userRoutes(odooService);
     const app = express();
-    app.use('/user', routes);
+    app.use('/users', routes);
     const request = supertest(app);
 
     const res = await request.get('/users/9D:90:9C:1X/checkMachinePermission');

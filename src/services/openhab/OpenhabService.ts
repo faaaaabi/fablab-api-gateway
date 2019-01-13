@@ -21,12 +21,36 @@ class OpenhabService {
     return deviceObject.data.state;
   }
 
-  public async getDevicesByGroup(groupName : string) : Promise<Object> {
-    const groupRequest = await this.openhabClient.getItem(groupName);
+  public async getDevicesByGroup(groupName : string, metadataSeletor? : string) : Promise<Object> {
+    const groupRequest = await this.openhabClient.getItem(groupName, metadataSeletor);
     if (groupRequest.data.type !== 'Group') {
       throw new Error('Group not found');
     }
     return groupRequest.data.members;
+  }
+
+  public async getDevicesByGroupAsLocationMap(groupName : string, metadataSeletor? : string)
+  : Promise<Object> {
+    const groupRequest = await this.openhabClient.getItem(groupName, metadataSeletor);
+    if (groupRequest.data.type !== 'Group') {
+      throw new Error('Group not found');
+    }
+    if (groupRequest.data.category !== 'Positional') {
+      throw new Error('No positional group');
+    }
+    const deviceLocationMap : object[][] = [];
+    console.log('array: ', deviceLocationMap);
+    groupRequest.data.members.forEach((element) => {
+      if ('metadata' in element) {
+        const position = element.metadata.position.config;
+        if (!deviceLocationMap[position.x]) deviceLocationMap[position.x] = [];
+        delete element.metadata;
+        delete element.editable;
+        deviceLocationMap[position.x][position.y] = element;
+      }
+    });
+
+    return deviceLocationMap;
   }
 }
 

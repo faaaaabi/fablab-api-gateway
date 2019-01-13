@@ -13,7 +13,7 @@ const toggleDeviceState = openhabService => async (req, res, next) => {
 
 const getDevicesByGroup = openhabService => async (req, res, next) => {
   try {
-    const devices = await openhabService.getDevicesByGroup(req.params.groupName);
+    const devices = await openhabService.getDevicesByGroup(req.params.groupName, 'position');
     res.send({ devices });
   } catch (e) {
     if (e.message === 'Group not found') {
@@ -24,4 +24,18 @@ const getDevicesByGroup = openhabService => async (req, res, next) => {
   }
 };
 
-export { toggleDeviceState, getDevicesByGroup };
+const getDevicesByGroupAsLocationMap = openhabService => async (req, res, next) => {
+  try {
+    const locationMap = await openhabService.
+    getDevicesByGroupAsLocationMap(req.params.groupName, 'position');
+    res.send({ locationMap });
+  } catch (e) {
+    if (e.message === 'Group not found') {
+      res.status('404')
+      .send({ error: e.message });
+    }
+    next(e);
+  }
+};
+
+export { toggleDeviceState, getDevicesByGroup, getDevicesByGroupAsLocationMap };
