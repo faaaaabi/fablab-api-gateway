@@ -8,5 +8,9 @@
     "db": "name_of_db",
     "username": "username",
     "password": "password"
+  },
+  "openhab-client": {
+    "url": "http://localhost",
+    "port": 8080
   }
 }
