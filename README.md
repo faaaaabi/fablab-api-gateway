@@ -26,7 +26,7 @@ $ npm install
 $ npm run test
 ```
 
-### Starten der EntwicklungsumgebungUmgebung
+### Starten der Entwicklungsumgebung Umgebung
 ```bash
 $ npm run dev
 ```
