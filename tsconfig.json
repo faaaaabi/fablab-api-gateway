@@ -5,11 +5,12 @@
       "pretty": true,
       "sourceMap": true,
       "target": "es6",
+      "allowJs": true,
       "outDir": "./dist",
       "baseUrl": "./src"
     },
     "include": [
-      "src/**/*.ts", "test-helpers/test-helpers.js"
+      "src/**/*", "test-helpers/test-helpers.js"
     ],
     "exclude": [
       "node_modules",
