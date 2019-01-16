@@ -78,7 +78,7 @@ openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht ledeiglic
 ### View der Kontaktansicht anpassen
 1. Reiter in der Kundenkarteikarte mit Fablab spezifischen Feldern anzeigen
    1. Enwticklermodus öffnen
-   2. Im Kontext Menü unter Edit View: Formular, im XML des Views das Elternelement "<notebook colspan="4">" um folgendes Pageelement erweitern:
+   2. Im Kontext Menü unter Edit View: Formular, im XML des Views das Elternelement `<notebook colspan="4">` um folgendes Pageelement erweitern:
 ```xml
 <page name="fablab_settings" string="Fablab Einstellungen">
   <group name="container_row_3">
