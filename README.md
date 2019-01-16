@@ -41,3 +41,27 @@ $ npm start
 ```bash
 $ npm run prod
 ```
+
+## openHAB konfiguration
+
+### ZWave
+* Addon installieren
+
+### RestAPI
+openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht ledeiglich das Arbeiten mit dieser.
+* Rest API Documentation installieren
+  * Addons -> Misc -> REST Documentation 
+
+### Geräte anlegen
+1. Sind Geräte örtlich zusammengefasst (z.B.) in einem Regal:
+   * Item vom Typ Group anlegen
+     * Diesem die Category "Positional" geben
+   * Item (Geräte) dieser mit dem obigen Item als Parent versehen
+
+2. Positionierung bei örtlich zusammengefassten Geräten
+   * Entweder manuell oder mit Swagger (http://\<HostWoOpenHabLaeuft\>:\<port\>/doc/index.html) dem Item die Postion als Metadata zufügen
+   * Über die Route PUT /items/{itemname}/metadata/{namespace}
+     * {itemname} : selbsterklärend
+     * {namespace}: position
+     * body: {"config": {"x": 0, y: 0} }
+       * Wer für x und y durch adäquate Position ersetzen

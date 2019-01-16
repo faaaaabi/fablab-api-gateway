@@ -39,7 +39,6 @@ class OpenhabService {
       throw new Error('No positional group');
     }
     const deviceLocationMap : object[][] = [];
-    console.log('array: ', deviceLocationMap);
     groupRequest.data.members.forEach((element) => {
       if ('metadata' in element) {
         const position = element.metadata.position.config;
