@@ -65,3 +65,32 @@ openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht ledeiglic
      * {namespace}: position
      * body: {"config": {"x": 0, y: 0} }
        * Wer für x und y durch adäquate Position ersetzen
+
+## odoo konfiguration
+
+### Zusätliche Felder in den Kundenkontakten anlegen
+1. Entwicklermodus öffnen im odoo Frontend öffnen
+2. Im Kontext Menü unter Felder anzeigen, folgende Felder anlegen
+   1. x_RFID_Card_UUID , Type: String
+   2. x_hadSecurityBriefing , Type: Boolean
+   3. x_isAdmim , Type: Boolean
+   
+### View der Kontaktansicht anpassen
+1. Reiter in der Kundenkarteikarte mit Fablab spezifischen Feldern anzeigen
+   1. Enwticklermodus öffnen
+   2. Im Kontext Menü unter Edit View: Formular, im XML des Views das Elternelement "<notebook colspan="4">" um folgendes Pageelement erweitern:
+```xml
+<page name="fablab_settings" string="Fablab Einstellungen">
+  <group name="container_row_3">
+      <group string="Sicherheit">
+          <field name="x_hadSecurityBriefing"/>
+      </group>
+      <group string="Sicherheit">
+          <field name="x_isAdmin"/>
+      </group>
+      <group string="Zugangsmedium">
+          <field name="x_RFID_Card_UUID"/>
+      </group>
+  </group>
+</page>
+``` 
