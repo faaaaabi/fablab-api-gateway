@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node ./src/server.ts",
+    "dev": "nodemon --watch",
     "start": "node ./dist/server.js",
     "prod": "npm run build && npm start",
     "test": "mocha -r ts-node/register \"./src/**/*.spec.ts\"",
@@ -44,6 +44,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.2.0",
     "mocha": "^5.2.0",
+    "nodemon": "^1.18.9",
     "nyc": "^13.1.0",
     "sinon": "^7.1.1",
     "sinon-chai": "^3.2.0",
