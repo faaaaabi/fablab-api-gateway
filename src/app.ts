@@ -16,7 +16,5 @@ class App {
     this.app.use(bodyParser.urlencoded({ extended: false }));
     this.app.use(morgan('combined'));
   }
-
 }
-
 export default new App().app;

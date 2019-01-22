@@ -10,7 +10,7 @@ class OdooClient {
     const params = [
       [['is_company', '=', false], ['customer', '=', true],
        ['x_RFID_Card_UUID', '=', rfidUuid]], // ids to search for
-       ['x_RFID_Card_UUID', 'name']]; // fields to return
+       ['x_RFID_Card_UUID', 'name', 'x_hadSecurityBriefing', 'x_isAdmin']]; // fields to return
     const result = await this.odooXmlRpcClient.execute_kw('res.partner', 'search_read', params);
 
     if (result.length === 0) {

@@ -45,7 +45,7 @@ class OpenhabService {
         if (!deviceLocationMap[position.x]) deviceLocationMap[position.x] = [];
         delete element.metadata;
         delete element.editable;
-        deviceLocationMap[position.x][position.y] = element;
+        deviceLocationMap[position.y][position.x] = element;
       }
     });
 
