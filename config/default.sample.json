@@ -12,5 +12,9 @@
   "openhab-client": {
     "url": "http://localhost",
     "port": 8080
+  },
+  "JWT" : {
+    "apiKey": "SuperStrongAPIKey",
+    "secret": "i8mnNd5ytsi7URbKVwijJmsHWvMmA5KZF9nFKB5dYExaBBp3VKWoN5wfz7qKPWyF"
   }
 }
