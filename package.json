@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon --watch",
-    "start": "node ./dist/server.js",
-    "prod": "npm run build && npm start",
+    "dev": "NODE_ENV=development nodemon --watch",
+    "start": "NODE_ENV=production node ./dist/server.js",
+    "prod": "NODE_ENV=production npm run build && npm start",
     "test": "mocha -r ts-node/register \"./src/**/*.spec.ts\"",
     "test-coverage": "nyc mocha -r ts-node/register \"./src/**/*.spec.ts\""
   },

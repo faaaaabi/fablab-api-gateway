@@ -26,7 +26,7 @@ describe('odooClient.findUserByRfidUuid', async () : Promise<any> => {
     const expectedParamsArray : any[] = [
       [['is_company', '=', false], ['customer', '=', true],
        ['x_RFID_Card_UUID', '=', testRfidUuid]],
-       ['x_RFID_Card_UUID', 'name']];
+       ['x_RFID_Card_UUID', 'name', 'x_hadSecurityBriefing', 'x_isAdmin']];
 
     try {
       await odooClient.findUserByRfidUuid(testRfidUuid);
@@ -53,12 +53,12 @@ describe('odooClient.findUserByRfidUuid', async () : Promise<any> => {
     expect(user).to.deep.equal(expectedOutput);
   });
 
-  it('should throw an exception if the no user with the given UUID was found', async () => {
+  it('should return null if the no user with the given UUID was found', async () => {
     const testRfidUuid = '9D:90:9C:1X';
     executeKwStub.returns([]);
 
-    return (expect(odooClient.findUserByRfidUuid(testRfidUuid))
-    .to.be.rejectedWith(Error, 'User not found'));
+    const clientResponse = await odooClient.findUserByRfidUuid(testRfidUuid);
+    expect(clientResponse).to.be.equal(null);
   });
 });
 
@@ -79,12 +79,12 @@ describe('odooClient.getSecurityBriefingState', async () => {
     expect(securityBriefingState).to.be.false;
   });
 
-  it('should throw an exception if the no user with the given UUID was found', async () => {
+  it('should return null if the no user with the given UUID was found', async () => {
     const testRfidUuid = '9D:90:9C:1X';
     executeKwStub.returns([]);
 
+    const securityBriefingState = await odooClient.getSecurityBriefingState(testRfidUuid)
     // return nessecary for mocha to compute the promise
-    return (expect(odooClient.getSecurityBriefingState(testRfidUuid))
-    .to.be.rejectedWith(Error, 'User not found'));
+    expect(securityBriefingState).to.be.equal(null);
   });
 });

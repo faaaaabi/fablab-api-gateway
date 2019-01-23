@@ -14,7 +14,7 @@ class OdooClient {
     const result = await this.odooXmlRpcClient.execute_kw('res.partner', 'search_read', params);
 
     if (result.length === 0) {
-      throw new Error('User not found');
+      return null;
     }
 
     return result[0];
@@ -29,7 +29,7 @@ class OdooClient {
     const result = await this.odooXmlRpcClient.execute_kw('res.partner', 'search_read', params);
 
     if (result.length === 0) {
-      throw new Error('User not found');
+      return null
     }
 
     return result[0].x_hadSecurityBriefing ? true : false;

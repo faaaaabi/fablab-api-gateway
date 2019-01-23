@@ -38,7 +38,6 @@ class OpenhabClient {
   public async getItem(itemName : string, metadataSelector? : string) : Promise<any> {
     let result : string;
     try {
-      console.log('getItemCall: ', `${this.openhabUrl}:${this.openhabPort}/rest/items/${itemName}${metadataSelector ? `metadata=${metadataSelector}` : '' }`);
       result = await axios
       .get(`${this.openhabUrl}:${this.openhabPort}/rest/items/${itemName}${metadataSelector ? `?metadata=${metadataSelector}` : '' }`);
     } catch (e) {

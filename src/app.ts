@@ -3,7 +3,6 @@ import * as bodyParser from 'body-parser';
 import * as morgan from 'morgan';
 
 class App {
-
   constructor() {
     this.app = express();
     this.config();
