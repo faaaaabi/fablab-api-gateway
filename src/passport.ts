@@ -45,13 +45,15 @@ passport.use(new JWTStrategy({
     secretOrKey   : jwtSecret
 },
 function (jwtPayload, cb) {
-
+    console.error('jwtpayload: ', jwtPayload)
     //find the user in db if needed
-    return odooService.getUserDataByUUID(jwtPayload.RFIDUUID)
+    return odooService.getUserDataByUUID(jwtPayload.x_RFID_Card_UUID)
         .then(user => {
+            console.log('user: ', user)
             return cb(null, user);
         })
         .catch(err => {
+            console.error('error: ', err)
             return cb(err);
         });
 }

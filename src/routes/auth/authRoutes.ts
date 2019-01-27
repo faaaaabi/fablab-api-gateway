@@ -1,6 +1,6 @@
 const authRoutes = require('express').Router();
 const jwt = require('jsonwebtoken');
-import passport from '../../passport';
+const passport = require('passport');
 const config = require('config');
 
 // Get JWT Secret
@@ -8,6 +8,7 @@ const jwtSecret : String = config.get('JWT').secret
 
 authRoutes.post('/app', function (req, res, next) {
     passport.authenticate('local', {session: false}, (err, user, info) => {
+        console.log('err: ', err)
         if (err || !user) {
             return res.status(400).json({
                 message: 'Something is not right',

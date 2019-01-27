@@ -23,9 +23,11 @@ import OpenhabClient from './clients/openhab/OpenhabClient';
 import OpenhabService from './services/openhab/OpenhabService';
 const openhabService = new OpenhabService(new OpenhabClient(config.get('openhab-client')));
 
+const passport = require('passport');
+require('./passport');
 
-app.use('/users', userRoutes(odooService));
-app.use('/devices', devicesRoutes(openhabService));
+app.use('/users', passport.authenticate('jwt', {session: false}), userRoutes(odooService));
+app.use('/devices', passport.authenticate('jwt', {session: false}), devicesRoutes(openhabService));
 app.use('/auth', authRoutes)
 
 // Error handler (Has to be on the end of the "pipeline")

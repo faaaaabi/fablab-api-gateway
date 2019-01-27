@@ -24,7 +24,6 @@ describe('openHABClient.switchItemON', async () => {
       }));
       sandbox.stub(axios, 'post').returns(rejected);
       
-      //const switchItemON = await openHABClient.switchItemON('NonExistingItemName')
       return(expect(openHABClient.switchItemON('NonExistingItemName')).to.be.rejectedWith(Error, 'Device not found'));
     })
 
@@ -36,9 +35,7 @@ describe('openHABClient.switchItemON', async () => {
       }));
       sandbox.stub(axios, 'post').returns(resolved);
       
-      //const switchItemON = await openHABClient.switchItemON('NonExistingItemName')
-      
-      return(expect(openHABClient.switchItemON('NonExistingItemName')).to.be.fulfilled);
+      return(expect(openHABClient.switchItemON('ExistingItemName')).to.be.fulfilled);
     })
 })
 
@@ -51,8 +48,7 @@ describe('openHABClient.switchItemOFF', async () => {
       }
     }));
     sandbox.stub(axios, 'post').returns(rejected);
-    
-    //const switchItemON = await openHABClient.switchItemON('NonExistingItemName')
+  
     return(expect(openHABClient.switchItemOFF('NonExistingItemName')).to.be.rejectedWith(Error, 'Device not found'));
   })
 
@@ -64,9 +60,30 @@ describe('openHABClient.switchItemOFF', async () => {
     }));
     sandbox.stub(axios, 'post').returns(resolved);
     
-    //const switchItemON = await openHABClient.switchItemON('NonExistingItemName')
+    return(expect(openHABClient.switchItemOFF('ExistingItemName')).to.be.fulfilled);
+  })
+})
+
+describe('openHABClient.getItem', async () => {
+  it('Should throw an "Device not found error", if the requested device is not found', async () => {
+    const rejected = new Promise((_, r) => r({
+      response: {
+        statusText: 'NotFound',
+        status: 404,
+      }
+    }));
+    sandbox.stub(axios, 'get').returns(rejected);
     
-    return(expect(openHABClient.switchItemOFF('NonExistingItemName')).to.be.fulfilled);
+    return(expect(openHABClient.getItem('NonExistingItemName')).to.be.rejectedWith(Error, 'Device not found'));
+  })
+
+  it('Should resolve with an object if the requested device is found', async () => {
+    const resolved = new Promise((r, _) => r({
+      some: 'data'
+    }));
+    sandbox.stub(axios, 'get').returns(resolved);
+    
+    return(expect(openHABClient.getItem('ExistingItemName')).to.be.fulfilled.and.eventually.deep.equal({some: 'data'}));
   })
 })
 
