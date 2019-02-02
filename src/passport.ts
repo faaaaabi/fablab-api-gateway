@@ -33,10 +33,10 @@ passport.use(new LocalStrategy(
       cb(e);
     }
     return odooService.getUserDataByUUID(rfiduuid)
-      .then(user => {
+      .then((user) => {
         return cb(null, user, { message: 'Logged In Successfully' });
       })
-      .catch(err => cb(err));
+      .catch((err) => cb(err));
   },
 ));
 
@@ -49,12 +49,10 @@ passport.use(new JWTStrategy(
     console.error('jwtpayload: ', jwtPayload)
     // find the user in db if needed
     return odooService.getUserDataByUUID(jwtPayload.x_RFID_Card_UUID)
-      .then(user => {
-        console.log('user: ', user)
+      .then((user) => {
         return cb(null, user);
       })
-      .catch(err => {
-        console.error('error: ', err)
+      .catch((err) => {
         return cb(err);
       });
   },
