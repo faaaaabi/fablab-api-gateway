@@ -22,7 +22,7 @@ passport.use(new LocalStrategy(
     usernameField: 'rfiduuid',
     passwordField: 'apiKey',
   },
-  async (rfiduuid: String, clientApiKey: String, cb: Function) => {
+  async (rfiduuid: string, clientApiKey: string, cb: Function) => {
     try {
       const user: Object = await odooService.getUserDataByUUID(rfiduuid);
       if (user && clientApiKey === apiKey) {
