@@ -13,9 +13,9 @@ import OdooService from './services/odoo/OdooService';
 const odooService = new OdooService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
 
 // Get API Key
-const apiKey : String = config.get('JWT').apiKey
+const apiKey : String = config.get('JWT').apiKey;
 // Get JWT Secret
-const jwtSecret : String = config.get('JWT').secret
+const jwtSecret : String = config.get('JWT').secret;
 
 passport.use(new LocalStrategy({
     usernameField: 'rfiduuid',
