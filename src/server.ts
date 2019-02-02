@@ -49,6 +49,10 @@ app.listen(port, () => {
 /**
  * SOCKET - REALTIME STUFF
  */
+io.sockets.on('connection', socketioJwt.authotize({
+  
+}));
+
 io.on('connection', (socket) => {
   console.log('new client connected');
   socket.emit('news', { hello: 'world' });
