@@ -2,6 +2,7 @@ import app from './app';
 
 // Socket IO
 const io = require('socket.io')();
+const socketioJwt =  require('socketio-jwt');
 
 // Load Config & necessary parameters
 const config = require('config');
@@ -49,16 +50,13 @@ app.listen(port, () => {
 /**
  * SOCKET - REALTIME STUFF
  */
-io.sockets.on('connection', socketioJwt.authotize({
-  
-}));
 
-io.on('connection', (socket) => {
-  console.log('new client connected');
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', (data) => {
-    console.log(data);
-  });
+io.on('connection', socketioJwt.authorize({
+  secret: config.get('JWT').secret,
+  timeout: 15000, // 15 seconds to send the authentication message
+})).on('authenticated', (socket) => {
+  // this socket is authenticated, we are good to handle more events from it.
+  console.log(`[Realtime API] Device connected ${socket.decoded_token.deviceID}`);
 });
 
 io.listen(8000);

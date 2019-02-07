@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const passportJWT = require("passport-jwt");
+const passportJWT = require('passport-jwt');
 const ExtractJWT = passportJWT.ExtractJwt;
 const JWTStrategy = passportJWT.Strategy;
 
@@ -36,7 +36,30 @@ passport.use(new LocalStrategy(
       .then((user) => {
         return cb(null, user, { message: 'Logged In Successfully' });
       })
-      .catch((err) => cb(err));
+      .catch(err => cb(err));
+  },
+));
+
+passport.use('app', new LocalStrategy(
+  {
+    usernameField: 'deviceID',
+    passwordField: 'apiKey',
+  },
+  (deviceID: string, clientApiKey: string, cb: Function) => {
+    try {
+      // @TODO: Search for device and api key in DB
+      if (deviceID === 'AccessDevice1' && clientApiKey === apiKey) {
+        return cb(null, deviceID, { message: 'Logged In Successfully' });
+      }
+      return cb(new Error('Either credentials or api key are wrong'));
+    } catch (e) {
+      cb(e);
+    }
+    return odooService.getUserDataByUUID(deviceID)
+      .then((user) => {
+        return cb(null, user, { message: 'Logged In Successfully' });
+      })
+      .catch(err => cb(err));
   },
 ));
 
@@ -46,15 +69,23 @@ passport.use(new JWTStrategy(
     secretOrKey: jwtSecret,
   },
   (jwtPayload, cb) => {
-    console.error('jwtpayload: ', jwtPayload)
+    console.error('jwtpayload: ', jwtPayload);
     // find the user in db if needed
-    return odooService.getUserDataByUUID(jwtPayload.x_RFID_Card_UUID)
+    if (jwtPayload.x_RFID_Card_UUID) {
+      return odooService.getUserDataByUUID(jwtPayload.x_RFID_Card_UUID)
       .then((user) => {
         return cb(null, user);
       })
       .catch((err) => {
+        console.log('jwt evaluation error:', err);
         return cb(err);
       });
+    }
+    if (jwtPayload.deviceID === 'AccessDevice1') {
+      // @TODO: search for devicID in databse
+      return cb(null, jwtPayload.deviceID);
+    }
+    return cb(new Error('invalid device'));
   },
 ));
 
