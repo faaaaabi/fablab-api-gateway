@@ -31,6 +31,10 @@ const openhabService = new OpenhabService(new OpenhabClient(config.get('openhab-
 const passport = require('passport');
 require('./passport');
 
+// Database
+const datastore = require('nedb');
+const db = new datastore({ filename: 'database', autoload: true });
+
 /**
  * REST API
  */
@@ -55,8 +59,8 @@ io.on('connection', socketioJwt.authorize({
   secret: config.get('JWT').secret,
   timeout: 15000, // 15 seconds to send the authentication message
 })).on('authenticated', (socket) => {
-  // this socket is authenticated, we are good to handle more events from it.
   console.log(`[Realtime API] Device connected ${socket.decoded_token.deviceID}`);
+  db.insert({})
 });
 
 io.listen(8000);
