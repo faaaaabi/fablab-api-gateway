@@ -1,13 +1,13 @@
 import OpenhabClient from '../../clients/openhab/OpenhabClient';
 
-class OpenhabService {
-  constructor(openhabClient : OpenhabClient) {
+class DeviceService {
+  constructor(openhabClient: OpenhabClient) {
     this.openhabClient = openhabClient;
   }
 
-  private openhabClient : OpenhabClient;
+  private openhabClient: OpenhabClient;
 
-  public async toggleDeviceState(deviceName : string) : Promise<void> {
+  public async toggleDeviceState(deviceName: string): Promise<void> {
     const deviceStateRequest = await this.openhabClient.getItem(deviceName);
     if (deviceStateRequest.data.state === 'ON') {
       this.openhabClient.switchItemOFF(deviceName);
@@ -16,41 +16,50 @@ class OpenhabService {
     }
   }
 
-  public async getDeviceState(deviceName : string) : Promise<string> {
+  public async getDeviceState(deviceName: string): Promise<string> {
     const deviceObject = await this.openhabClient.getItem(deviceName);
     return deviceObject.data.state;
   }
 
-  public async getDevicesByGroup(groupName : string, metadataSeletor? : string) : Promise<Object> {
-    const groupRequest = await this.openhabClient.getItem(groupName, metadataSeletor);
+  public async getDevicesByGroup(
+    groupName: string,
+    metadataSeletor?: string,
+  ): Promise<Object> {
+    const groupRequest = await this.openhabClient.getItem(
+      groupName,
+      metadataSeletor,
+    );
     if (groupRequest.data.type !== 'Group') {
       throw new Error('Group not found');
     }
     return groupRequest.data.members;
   }
 
-  public async getDevicesByGroupAsLocationMap(groupName : string, metadataSeletor? : string)
-  : Promise<Object> {
-    const groupRequest = await this.openhabClient.getItem(groupName, metadataSeletor);
+  public async getDevicesByGroupAsLocationMap(
+    groupName: string,
+    metadataSeletor?: string,
+  ): Promise<Object> {
+    const groupRequest = await this.openhabClient.getItem(
+      groupName,
+      metadataSeletor,
+    );
     if (groupRequest.data.type !== 'Group') {
       throw new Error('Group not found');
     }
     if (groupRequest.data.category !== 'Positional') {
       throw new Error('No positional group');
     }
-    const deviceLocationMap : object[][] = [];
+    const deviceLocationMap: object[][] = [[], []];
     groupRequest.data.members.forEach((element) => {
       if ('metadata' in element) {
         const position = element.metadata.position.config;
-        if (!deviceLocationMap[position.x]) deviceLocationMap[position.x] = [];
         delete element.metadata;
         delete element.editable;
         deviceLocationMap[position.y][position.x] = element;
       }
     });
-
     return deviceLocationMap;
   }
 }
 
-export default OpenhabService;
+export default DeviceService;

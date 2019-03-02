@@ -4,3 +4,4 @@ config/default.json
 .nyc_output/
 coverage/
 .idea/
+database

@@ -1,4 +1,4 @@
-import OdooService from './OdooService';
+import UserService from './UserService';
 import OdooClient from '../../clients/odoo/OdooClient';
 const chai = require('chai');
 const sinon = require('sinon');
@@ -12,7 +12,7 @@ const odooXmlRpc = require('../../libs/odoo-xmlrpc');
 describe('odooService.userHadSecurityBriefing', () => {
   const xmlRpcclient = new odooXmlRpc(config.get('odoo-client'));
   const odooClient : OdooClient = new OdooClient(xmlRpcclient);
-  const odooService : OdooService = new OdooService(odooClient);
+  const odooService : UserService = new UserService(odooClient);
   let findUserByRfidUuidStub;
   let getSecurityBriefingStateStub;
 

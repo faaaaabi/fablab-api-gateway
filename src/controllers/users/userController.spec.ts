@@ -1,16 +1,16 @@
 import { expect, sinon } from '../../test-helpers';
 
 const odooXmlRpc = require('../../libs/odoo-xmlrpc');
-import OdooService from '../../services/odoo/OdooService';
+import UserService from '../../services/user/UserService';
 import OdooClient from '../../clients/odoo/OdooClient';
 const config = require('config');
 import { isAllowedToUseMachine } from './userController';
 
-const odooService = new OdooService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
+const userService = new UserService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
 let isUserAllowedToUseStub;
 
 beforeEach(() : void => {
-  isUserAllowedToUseStub = sinon.stub(odooService, 'isUserAllowedToUse');
+  isUserAllowedToUseStub = sinon.stub(userService, 'isUserAllowedToUse');
 });
 
 afterEach(() : void => {
@@ -33,7 +33,7 @@ describe('userController', () => {
     };
     const next = sinon.spy();
 
-    await isAllowedToUseMachine(odooService)(req, res, next);
+    await isAllowedToUseMachine(userService)(req, res, next);
     expect(res.send.firstCall.args[0]).to.deep.equal({ isAllowed: true });
   });
 

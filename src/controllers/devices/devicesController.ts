@@ -1,41 +1,57 @@
-const toggleDeviceState = openhabService => async (req, res, next) => {
+import DeviceService from 'services/device/DeviceService';
+import UserService from 'services/user/UserService';
+
+const toggleDeviceState = (
+  deviceService: DeviceService,
+  userService: UserService,
+) => async (req, res, next) => {
   try {
-    await openhabService.toggleDeviceState(req.params.deviceName);
-    res.send({ status: 'OK' });
+    console.log('req-body:' + JSON.stringify(req.body));
+    if (await userService.isUserAllowedToUse(req.body.userUID)) {
+      await deviceService.toggleDeviceState(req.params.deviceName);
+      res.send({ status: 'OK' });
+    } else {
+      res.status(401).send({ status: 'unauthorized' });
+    }
   } catch (e) {
     if (e.message.includes('not found')) {
-      res.status('404')
-      .send({ error: e.message });
+      res.status('404').send({ error: e.message });
     }
     next(e);
   }
 };
 
-const getDevicesByGroup = openhabService => async (req, res, next) => {
+const getDevicesByGroup = (deviceService: DeviceService) => async (req, res, next) => {
   try {
-    const devices = await openhabService.getDevicesByGroup(req.params.groupName, 'position');
+    const devices = await deviceService.getDevicesByGroup(
+      req.params.groupName,
+      'position',
+    );
     res.send({ devices });
   } catch (e) {
     if (e.message.includes('not found')) {
-      res.status('404')
-      .send({ error: e.message });
+      res.status('404').send({ error: e.message });
     }
     next(e);
   }
 };
 
-const getDevicesByGroupAsLocationMap = openhabService => async (req, res, next) => {
+const getDevicesByGroupAsLocationMap = (deviceService: DeviceService) => async (
+  req,
+  res,
+  next,
+) => {
   try {
-    const locationMap = await openhabService.
-    getDevicesByGroupAsLocationMap(req.params.groupName, 'position');
+    const locationMap = await deviceService.getDevicesByGroupAsLocationMap(
+      req.params.groupName,
+      'position',
+    );
     res.send({ locationMap });
   } catch (e) {
     if (e.message.includes('not found')) {
-      res.status('404')
-      .send({ error: e.message });
+      res.status('404').send({ error: e.message });
     } else {
-      res.status('500')
-      .send({ error: `Something went bananas: ${e.message}` });
+      res.status('500').send({ error: `Something went bananas: ${e.message}` });
     }
     next(e);
   }

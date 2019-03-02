@@ -1,13 +1,14 @@
 const deviceRoutes = require('express').Router();
-import { toggleDeviceState, getDevicesByGroup, getDevicesByGroupAsLocationMap } 
+import { toggleDeviceState, getDevicesByGroup, getDevicesByGroupAsLocationMap }
 from '../../controllers/devices/devicesController';
-import OpenhabService from '../../services/openhab/OpenhabService';
+import DeviceService from '../../services/device/DeviceService';
+import UserService from 'services/user/UserService';
 
-const routes = function (openhabService : OpenhabService) {
-  deviceRoutes.get('/:deviceName/toggleState', toggleDeviceState(openhabService));
-  deviceRoutes.get('/:groupName/members', getDevicesByGroup(openhabService));
+const routes = function (deviceService : DeviceService, userService: UserService) {
+  deviceRoutes.post('/:deviceName/toggleState', toggleDeviceState(deviceService, userService));
+  deviceRoutes.get('/:groupName/members', getDevicesByGroup(deviceService));
   deviceRoutes
-  .get('/:groupName/members/locationmap', getDevicesByGroupAsLocationMap(openhabService));
+  .get('/:groupName/members/locationmap', getDevicesByGroupAsLocationMap(deviceService));
   return deviceRoutes;
 };
 

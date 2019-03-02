@@ -12,7 +12,7 @@ const port: number = config.get('API.port');
 import errorHandler from './middleware/errorHandler';
 
 // Routes
-import OdooService from './services/odoo/OdooService';
+import UserService from './services/user/UserService';
 import userRoutes from './routes/users/userRoutes';
 import devicesRoutes from './routes/devices/devicesRoutes';
 import authRoutes from './routes/auth/authRoutes';
@@ -20,28 +20,26 @@ import authRoutes from './routes/auth/authRoutes';
 // Odoo Init
 const odooXmlRpc = require('./libs/odoo-xmlrpc');
 import OdooClient from './clients/odoo/OdooClient';
-const odooService = new OdooService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
+const userService = new UserService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
 
 // OpenHAB init
 import OpenhabClient from './clients/openhab/OpenhabClient';
-import OpenhabService from './services/openhab/OpenhabService';
-const openhabService = new OpenhabService(new OpenhabClient(config.get('openhab-client')));
+import DeviceService from './services/device/DeviceService';
+const deviceService = new DeviceService(new OpenhabClient(config.get('openhab-client')));
 
 // Load passport and authentication configuration
 const passport = require('passport');
 require('./passport');
 
 // Database
-const datastore = require('nedb');
-const db = new datastore({ filename: 'database', autoload: true });
 
 /**
  * REST API
  */
 app.use('/users', passport.authenticate('jwt', { session: false }),
-        userRoutes(odooService));
+        userRoutes(userService));
 app.use('/devices', passport.authenticate('jwt', { session: false }),
-        devicesRoutes(openhabService));
+        devicesRoutes(deviceService, userService));
 app.use('/auth', authRoutes);
 
 // Error handler (Has to be on the end of the "pipeline")
@@ -54,13 +52,11 @@ app.listen(port, () => {
 /**
  * SOCKET - REALTIME STUFF
  */
-
 io.on('connection', socketioJwt.authorize({
   secret: config.get('JWT').secret,
   timeout: 15000, // 15 seconds to send the authentication message
 })).on('authenticated', (socket) => {
   console.log(`[Realtime API] Device connected ${socket.decoded_token.deviceID}`);
-  db.insert({})
 });
 
 io.listen(8000);

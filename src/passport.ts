@@ -8,9 +8,9 @@ const JWTStrategy = passportJWT.Strategy;
 const config = require('config');
 const odooXmlRpc = require('./libs/odoo-xmlrpc');
 import OdooClient from './clients/odoo/OdooClient';
-import OdooService from './services/odoo/OdooService';
+import UserService from './services/user/UserService';
 
-const odooService = new OdooService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
+const userService = new UserService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
 
 // Get API Key
 const apiKey: String = config.get('JWT').apiKey;
@@ -24,7 +24,7 @@ passport.use(new LocalStrategy(
   },
   async (rfiduuid: string, clientApiKey: string, cb: Function) => {
     try {
-      const user: Object = await odooService.getUserDataByUUID(rfiduuid);
+      const user: Object = await userService.getUserDataByUUID(rfiduuid);
       if (user && clientApiKey === apiKey) {
         return cb(null, user, { message: 'Logged In Successfully' });
       }
@@ -32,7 +32,7 @@ passport.use(new LocalStrategy(
     } catch (e) {
       cb(e);
     }
-    return odooService.getUserDataByUUID(rfiduuid)
+    return userService.getUserDataByUUID(rfiduuid)
       .then((user) => {
         return cb(null, user, { message: 'Logged In Successfully' });
       })
@@ -55,7 +55,7 @@ passport.use('app', new LocalStrategy(
     } catch (e) {
       cb(e);
     }
-    return odooService.getUserDataByUUID(deviceID)
+    return userService.getUserDataByUUID(deviceID)
       .then((user) => {
         return cb(null, user, { message: 'Logged In Successfully' });
       })
@@ -72,7 +72,7 @@ passport.use(new JWTStrategy(
     console.error('jwtpayload: ', jwtPayload);
     // find the user in db if needed
     if (jwtPayload.x_RFID_Card_UUID) {
-      return odooService.getUserDataByUUID(jwtPayload.x_RFID_Card_UUID)
+      return userService.getUserDataByUUID(jwtPayload.x_RFID_Card_UUID)
       .then((user) => {
         return cb(null, user);
       })

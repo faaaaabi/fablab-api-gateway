@@ -1,6 +1,6 @@
 import OdooClient from '../../clients/odoo/OdooClient';
 
-class OdooService {
+class UserService {
   constructor(odooClient : OdooClient) {
     this.odooClient = odooClient;
   }
@@ -21,4 +21,4 @@ class OdooService {
 
 }
 
-export default OdooService;
+export default UserService;
