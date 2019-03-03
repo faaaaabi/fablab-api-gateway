@@ -5,3 +5,5 @@ config/default.json
 coverage/
 .idea/
 database
+.dependency-cruiser.json
+dependencygraph.svg

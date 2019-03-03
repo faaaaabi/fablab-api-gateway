@@ -2,6 +2,13 @@
   "API": {
     "port": 8081
     },
+  "mongodb": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "fablab",
+    "user": "root",
+    "password": "fablab1234"
+  },
   "odoo-client": {
     "url": "http://localhost",
     "port": 8069,

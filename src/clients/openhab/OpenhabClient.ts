@@ -1,3 +1,5 @@
+import DeviceNotFoundError from "../../errors/DeviceNotFoundError";
+
 const axios = require('axios');
 
 class OpenhabClient {
@@ -16,7 +18,7 @@ class OpenhabClient {
       });
     } catch (e) {
       if (e.response.status === 404) {
-        throw new Error('Device not found');
+        throw new DeviceNotFoundError('Device not found');
       }
       throw new Error(e);
     }
@@ -29,7 +31,7 @@ class OpenhabClient {
       });
     } catch (e) {
       if (e.response.status === 404) {
-        throw new Error('Device not found');
+        throw new DeviceNotFoundError('Device not found');
       }
       throw new Error(e);
     }
@@ -42,7 +44,7 @@ class OpenhabClient {
       .get(`${this.openhabUrl}:${this.openhabPort}/rest/items/${itemName}${metadataSelector ? `?metadata=${metadataSelector}` : '' }`);
     } catch (e) {
       if (e.response.status === 404) {
-        throw new Error('Device not found');
+        throw new DeviceNotFoundError('Device not found');
       }
       throw new Error(e);
     }
