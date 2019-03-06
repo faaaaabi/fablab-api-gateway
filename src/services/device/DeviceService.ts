@@ -67,13 +67,13 @@ class DeviceService {
     if (groupRequest.data.category !== 'Positional') {
       throw new Error('No positional group');
     }
-    const deviceLocationMap: object[][] = [[], []];
+    const deviceLocationMap: object[][] = [[],[]];
     groupRequest.data.members.forEach(element => {
       if ('metadata' in element) {
         const position = element.metadata.position.config;
         delete element.metadata;
         delete element.editable;
-        deviceLocationMap[position.y][position.x] = element;
+        deviceLocationMap[position.x][position.y] = element;
       }
     });
     return deviceLocationMap;
