@@ -79,7 +79,6 @@ class DeviceService {
         deviceLocationMap[position.y][position.x] = element;
       }
     });
-    console.log(deviceLocationMap);
     return deviceLocationMap;
   }
 }

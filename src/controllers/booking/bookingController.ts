@@ -1,6 +1,7 @@
 import DeviceService from 'services/device/DeviceService';
 import UserService from 'services/user/UserService';
 import { DeviceBookingService } from 'services/deviceBooking/DeviceBookingService';
+import { DeviceBooking } from 'entities/deviceBooking';
 
 const bookDevice = (
   deviceService: DeviceService,
@@ -17,11 +18,11 @@ const bookDevice = (
 
 const getDeviceBooking = (deviceBookingService: DeviceBookingService) => async (req, res, next) => {
   try {
-    const deviceIDs = req.query;
-    console.log('request query: ', deviceIDs);
-    //await deviceBookingService.findBookings()
+    const deviceIDs = req.query.ids.split(',');
+    const deviceBookings: DeviceBooking[] = await deviceBookingService.findBookings(deviceIDs);
+    res.status(200).send(deviceBookings);
   } catch (e) {
-
+    next(e);
   }
 };
 

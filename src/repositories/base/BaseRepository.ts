@@ -22,11 +22,13 @@ export abstract class BaseRepository<T> implements WritableRepo<T>, ReadableRepo
   delete(id: string): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
-  async find(item: T): Promise<T[]> {
-    const result: T[] = await this.collection.findOne(item);
+  async findOne(item: T): Promise<T> {
+    const result: T = await this.collection.findOne(item);
     return result;
   }
-  findOne(id: string): Promise<T> {
-    throw new Error('Method not implemented.');
+
+  async find(item: T[]): Promise<T[]> {
+    const result: T[] = await this.collection.find(item).toArray();
+    return result;
   }
 }

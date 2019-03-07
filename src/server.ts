@@ -34,9 +34,9 @@ import { RealtimeAccessDevice } from './entities/RealtimeAccessDevice';
       console.log(`[Realtime API] Device connected ${socket.decoded_token.deviceID}`);
       socket.on('advertise', (payload) => {
         if(payload.accessDeviceName && payload.location) {
-          console.log(`Socket id ${socket.id}`);
-          console.log(`[Realtime API] Device ${socket.decoded_token.deviceID} advertisement`);
-          console.log('payload: ', payload);
+          //console.log(`Socket id ${socket.id}`);
+          //console.log(`[Realtime API] Device ${socket.decoded_token.deviceID} advertisement`);
+          //console.log('payload: ', payload);
           const realtimeAccessDevice = new RealtimeAccessDevice(payload.accessDeviceName, payload.location);
         }
       socket.on('disconnect', () => {

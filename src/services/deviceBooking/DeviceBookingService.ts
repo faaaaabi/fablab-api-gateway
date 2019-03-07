@@ -21,7 +21,7 @@ export class DeviceBookingService {
 
   startBooking = async (deviceName: string, userUID: string): Promise<boolean> => {
     const deviceBooking = new DeviceBooking(deviceName, userUID);
-    if (!(await this.deviceBookingRepository.find(deviceBooking))) {
+    if (!(await this.deviceBookingRepository.findOne(deviceBooking))) {
       if (await this.userService.isUserAllowedToUse(userUID)) {
         if ((await this.deviceService.getDeviceState(deviceName)) === 'OFF') {
           deviceBooking.setStartTime(new Date().valueOf());
@@ -40,4 +40,9 @@ export class DeviceBookingService {
       throw new BookingError('Device already present in other booking');
     }
   };
+
+  findBookings = async (deviceNames: Array<string>): Promise<DeviceBooking[]> => {
+    const deviceBooking: DeviceBooking[] = await this.deviceBookingRepository.findBookingsByDeviceNames(deviceNames);
+    return deviceBooking;
+  }
 }
