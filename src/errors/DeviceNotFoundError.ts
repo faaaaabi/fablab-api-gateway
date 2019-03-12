@@ -1,4 +1,6 @@
-export default class DeviceNotFoundError extends Error {
+import BaseError from "./BaseError";
+
+export default class DeviceNotFoundError extends BaseError {
   constructor(message: string) {
       super(message);
 

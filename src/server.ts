@@ -17,7 +17,7 @@ import { RealtimeAccessDevice } from './entities/RealtimeAccessDevice';
 
 (async () => {
   try {
-    routes.init(app);
+    await routes.init(app);
     app.use(errorHandler);
 
     app.listen(port, () => {
@@ -28,31 +28,31 @@ import { RealtimeAccessDevice } from './entities/RealtimeAccessDevice';
       'connection',
       socketioJwt.authorize({
         secret: config.get('JWT').secret,
-        timeout: 15000,// 15 seconds to send the authentication message
+        timeout: 15000 // 15 seconds to send the authentication message
       })
     ).on('authenticated', socket => {
       console.log(`[Realtime API] Device connected ${socket.decoded_token.deviceID}`);
-      socket.on('advertise', (payload) => {
-        if(payload.accessDeviceName && payload.location) {
-          //console.log(`Socket id ${socket.id}`);
-          //console.log(`[Realtime API] Device ${socket.decoded_token.deviceID} advertisement`);
-          //console.log('payload: ', payload);
-          const realtimeAccessDevice = new RealtimeAccessDevice(payload.accessDeviceName, payload.location);
+      socket.on('advertise', payload => {
+        if (payload.accessDeviceName && payload.location) {
+          const realtimeAccessDevice = new RealtimeAccessDevice(
+            payload.accessDeviceName,
+            payload.location
+          );
         }
-      socket.on('disconnect', () => {
-        console.log(`[Realtime API] Device disconnected ${socket.decoded_token.deviceID}`);
-      })
-      } )
+        socket.on('disconnect', () => {
+          console.log(`[Realtime API] Device disconnected ${socket.decoded_token.deviceID}`);
+        });
+      });
     });
 
     io.listen(8000);
     console.log('socket.io listening on port 8000');
 
-    process.on( "SIGINT", function() {
+    process.on('SIGINT', function() {
       console.log('CLOSING [SIGINT]');
       io.close();
       process.exit();
-    } );
+    });
   } catch (e) {
     console.error(e);
     process.exit(1);

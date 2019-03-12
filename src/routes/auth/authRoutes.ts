@@ -8,7 +8,6 @@ const jwtSecret: String = config.get('JWT').secret;
 
 authRoutes.post('/user', (req, res, next) => {
   passport.authenticate('local', { session: false }, (err, user, info) => {
-    console.log('err: ', err);
     if (err || !user) {
       return res.status(400).json({
         user,
@@ -19,11 +18,7 @@ authRoutes.post('/user', (req, res, next) => {
       if (err) {
         res.send(err);
       }
-      /*
-      *  generate a signed son web token with the contents of user
-      *  object and return it in the response
-      */
-      const token = jwt.sign(user, jwtSecret);
+      const token = jwt.sign(user, jwtSecret, {expiresIn: '20s'});
       return res.json({ user, token });
     });
   })(req, res);
@@ -41,10 +36,6 @@ authRoutes.post('/app', (req, res, next) => {
       if (err) {
         res.send(err);
       }
-      /*
-      *  generate a signed son web token with the contents of user
-      *  object and return it in the response
-      */
       const token = jwt.sign({ deviceID }, jwtSecret);
       return res.json({ token, deviceID });
     });

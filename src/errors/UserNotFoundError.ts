@@ -1,8 +1,8 @@
-export default class UserNotFoundError extends Error {
-  constructor(message: string) {
-      super(message);
+import BaseError from './BaseError';
 
-      // Set the prototype explicitly.
-      Object.setPrototypeOf(this, UserNotFoundError.prototype);
+export default class UserNotFoundError extends BaseError {
+  constructor(message?: string) {
+    super(message || 'Requested user could not be found');
+    Object.setPrototypeOf(this, UserNotFoundError.prototype);
   }
 }

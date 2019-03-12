@@ -25,7 +25,8 @@ passport.use(new LocalStrategy(
   async (rfiduuid: string, clientApiKey: string, cb: Function) => {
     try {
       const user: Object = await userService.getUserDataByUUID(rfiduuid);
-      if (user && clientApiKey === apiKey) {
+      const isAllowedToUseMachine: Boolean = await userService.isUserAllowedToUse(rfiduuid);
+      if (user && clientApiKey === apiKey && isAllowedToUseMachine) {
         return cb(null, user, { message: 'Logged In Successfully' });
       }
       return cb(new Error('Either credentials or api key are wrong'));

@@ -1,4 +1,4 @@
-import notFoundError from '../../http-errors/notFoundError';
+import UserNotFoundError from '../../errors/UserNotFoundError';
 
 const isAllowedToUseMachine = userService => async (req, res, next) => {
   try {
@@ -11,7 +11,7 @@ const isAllowedToUseMachine = userService => async (req, res, next) => {
       }
       res.send({ isAllowed: isAllowedToUSeMachine });
     } else {
-      next(new notFoundError('User not found', 404));
+      next(new UserNotFoundError('User could not be found'));
     }
   } catch (e) {
     next(e);

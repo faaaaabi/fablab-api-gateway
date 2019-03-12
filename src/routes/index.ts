@@ -60,7 +60,7 @@ const init = async (app: express.Application) => {
   app.use(
     '/bookings',
     passport.authenticate('jwt', { session: false }),
-    bookingRoutes(deviceService, userService, deviceBookingService)
+    bookingRoutes(deviceBookingService)
   );
   app.use('/auth', authRoutes);
 };
