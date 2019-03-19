@@ -1,7 +1,3 @@
-import UserNotFoundError from "../errors/DeviceNotFoundError";
-import DeviceNotFoundError from "../errors/DeviceNotFoundError";
-import DeviceStateError from "../errors/DeviceStateError";
-
 const errorHandler =(err, req, res, next) => {
       let responseCode;
       console.error(err);
@@ -9,8 +5,6 @@ const errorHandler =(err, req, res, next) => {
       if (req.app.get('env') !== 'development') {
           delete err.stack;
       }
-
-      console.log('-----> Error constructor: ', err.constructor.name)
 
       switch (err.constructor.name) {
         case 'UserNotFoundError':
@@ -23,6 +17,9 @@ const errorHandler =(err, req, res, next) => {
           responseCode = 500;
           break;
         case 'TokenExpiredError':
+          responseCode = 401;
+          break;
+        case 'UnauthorizedError':
           responseCode = 401;
           break;
         default:

@@ -7,14 +7,14 @@ class UserService {
 
   private odooClient : OdooClient;
 
-  public async getUserDataByUUID(rfidCardUUID: string) : Promise<Object> {
-    const user = await this.odooClient.findUserByRfidUuid(rfidCardUUID);
+  public async getUserDataByUUID(userID: string) : Promise<Object> {
+    const user = await this.odooClient.findUserByRfidUuid(userID);
 
     return user;
   }
 
-  public async isUserAllowedToUse(rfidCardUUID: string) : Promise<Boolean> {
-    const securityBriefingState = await this.odooClient.getSecurityBriefingState(rfidCardUUID);
+  public async isUserAllowedToUse(userID: string) : Promise<Boolean> {
+    const securityBriefingState = await this.odooClient.getSecurityBriefingState(userID);
 
     return securityBriefingState;
   }

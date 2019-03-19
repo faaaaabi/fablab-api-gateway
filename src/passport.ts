@@ -9,6 +9,7 @@ const config = require('config');
 const odooXmlRpc = require('./libs/odoo-xmlrpc');
 import OdooClient from './clients/odoo/OdooClient';
 import UserService from './services/user/UserService';
+import UnauthorizedError from './errors/UnauthorizedError';
 
 const userService = new UserService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
 
@@ -19,25 +20,21 @@ const jwtSecret: String = config.get('JWT').secret;
 
 passport.use(new LocalStrategy(
   {
-    usernameField: 'rfiduuid',
+    usernameField: 'userID',
     passwordField: 'apiKey',
   },
-  async (rfiduuid: string, clientApiKey: string, cb: Function) => {
+  async (userID: string, clientApiKey: string, cb: Function) => {
     try {
-      const user: Object = await userService.getUserDataByUUID(rfiduuid);
-      const isAllowedToUseMachine: Boolean = await userService.isUserAllowedToUse(rfiduuid);
+      const user: Object = await userService.getUserDataByUUID(userID);
+      const isAllowedToUseMachine: Boolean = await userService.isUserAllowedToUse(userID);
       if (user && clientApiKey === apiKey && isAllowedToUseMachine) {
         return cb(null, user, { message: 'Logged In Successfully' });
       }
-      return cb(new Error('Either credentials or api key are wrong'));
+      return cb(new UnauthorizedError('Either credentials or api key are wrong'));
     } catch (e) {
       cb(e);
+      return
     }
-    return userService.getUserDataByUUID(rfiduuid)
-      .then((user) => {
-        return cb(null, user, { message: 'Logged In Successfully' });
-      })
-      .catch(err => cb(err));
   },
 ));
 
@@ -52,15 +49,11 @@ passport.use('app', new LocalStrategy(
       if (deviceID === 'AccessDevice1' && clientApiKey === apiKey) {
         return cb(null, deviceID, { message: 'Logged In Successfully' });
       }
-      return cb(new Error('Either credentials or api key are wrong'));
+      return cb(new UnauthorizedError('Either credentials or api key are wrong'));
     } catch (e) {
       cb(e);
+      return;
     }
-    return userService.getUserDataByUUID(deviceID)
-      .then((user) => {
-        return cb(null, user, { message: 'Logged In Successfully' });
-      })
-      .catch(err => cb(err));
   },
 ));
 
@@ -71,17 +64,6 @@ passport.use(new JWTStrategy(
   },
   (jwtPayload, cb) => {
     console.error('jwtpayload: ', jwtPayload);
-    // find the user in db if needed
-    if (jwtPayload.x_RFID_Card_UUID) {
-      return userService.getUserDataByUUID(jwtPayload.x_RFID_Card_UUID)
-      .then((user) => {
-        return cb(null, user);
-      })
-      .catch((err) => {
-        console.log('jwt evaluation error:', err);
-        return cb(err);
-      });
-    }
     if (jwtPayload.deviceID === 'AccessDevice1') {
       // @TODO: search for devicID in databse
       return cb(null, jwtPayload.deviceID);

@@ -1,25 +1,33 @@
-import DeviceService from 'services/device/DeviceService';
-import UserService from 'services/user/UserService';
 import { DeviceBookingService } from 'services/deviceBooking/DeviceBookingService';
 import { DeviceBooking } from 'entities/deviceBooking';
 import * as jwt from 'jsonwebtoken';
+import { ObjectID } from 'bson';
+import { intermediateToken } from '../../types/intermediateToken';
 const config = require('config');
 const jwtSecret: string = config.get('JWT').secret
+
 
 const bookDevice = (
   deviceBookingService: DeviceBookingService
 ) => async (req, res, next) => {
   try {
     jwt.verify(req.body.intermediateToken, jwtSecret);
-    await deviceBookingService.startBooking(req.body.deviceName, req.body.userUID);
-    res.status(200).send({ status: 'OK' });
+    const bookingID: ObjectID = await deviceBookingService.startBooking(req.body.deviceName, req.body.userUID);
+    res.status(201).send({ status: 'OK', bookingID });
   } catch (e) {
     next(e);
   }
 };
 
 const endBooking = (deviceBookingService: DeviceBookingService) => async (req, res, next) => {
-
+  try {
+    const bookingID: string = req.body.bookingID
+    const intermediateToken: intermediateToken = (<any>jwt).verify(req.body.intermediateToken, jwtSecret);
+    await deviceBookingService.endBooking(bookingID, intermediateToken.userID);
+    res.status(204).send({ status: 'OK' });
+  } catch (e) {
+    next(e)
+  }
 }
 
 const getDeviceBooking = (deviceBookingService: DeviceBookingService) => async (req, res, next) => {

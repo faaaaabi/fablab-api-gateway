@@ -46,11 +46,6 @@ const init = async (app: express.Application) => {
     userService
   );
 
-  app.get('*', function(req, res, next) {
-    console.log(`${req.originalUrl} was requested`);
-    return next();
-  });
-
   app.use('/users', passport.authenticate('jwt', { session: false }), userRoutes(userService));
   app.use(
     '/devices',
