@@ -86,6 +86,7 @@ export class DeviceBookingService {
           bookingTransaction.deviceSwitchedOff = await this.deviceService.switchOffDevice(
             deviceBooking.getDeviceName
           );
+          await this.userService.createAndConfirmSalesOrder(userUID, 2);
           return bookingTransaction.bookingDeleted && bookingTransaction.deviceSwitchedOff;
         }
       } catch (e) {
