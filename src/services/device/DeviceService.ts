@@ -16,7 +16,7 @@ class DeviceService {
 
   private getActorService(actor: actor): ActorService {
     return this.actorServices.find(actorService => {
-      return actorService.getIdentifier() === actor.identifier;
+      return actorService.getIdentifier() === actor.platformIdentifier;
     });
   }
 

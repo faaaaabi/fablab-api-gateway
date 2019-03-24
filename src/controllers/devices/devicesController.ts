@@ -7,7 +7,7 @@ const toggleDeviceState = (
 ) => async (req, res, next) => {
   try {
     if (await userService.isUserAllowedToUse(req.body.userUID)) {
-      await actorService.toggleActorState(req.params.deviceName);
+      await deviceService.toggleDeviceState(req.params.deviceName);
       res.send({ status: 'OK' });
     } else {
       res.status(401).send({ status: 'unauthorized' });
