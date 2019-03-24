@@ -1,4 +1,4 @@
-import { DeviceBooking } from '../entities/deviceBooking';
+import { DeviceBooking } from '../entities/DeviceBooking';
 import { BaseRepository } from './base/BaseRepository';
 import { ObjectID } from 'bson';
 import { DeleteWriteOpResultObject } from 'mongodb';

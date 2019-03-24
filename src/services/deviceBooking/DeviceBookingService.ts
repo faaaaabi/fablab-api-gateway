@@ -1,7 +1,7 @@
 import { DeviceBookingRepository } from '../../repositories/DeviceBookingRepository';
 import DeviceService from '../../services/device/DeviceService';
 import UserService from '../../services/user/UserService';
-import { DeviceBooking } from '../../entities/deviceBooking';
+import { DeviceBooking } from '../../entities/DeviceBooking';
 import BookingError from '../../errors/BookingError';
 import { ObjectID } from 'bson';
 

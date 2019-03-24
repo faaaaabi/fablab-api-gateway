@@ -1,5 +1,5 @@
 import { DeviceBookingService } from 'services/deviceBooking/DeviceBookingService';
-import { DeviceBooking } from 'entities/deviceBooking';
+import { DeviceBooking } from 'entities/DeviceBooking';
 import * as jwt from 'jsonwebtoken';
 import { ObjectID } from 'bson';
 import { intermediateToken } from '../../types/intermediateToken';
