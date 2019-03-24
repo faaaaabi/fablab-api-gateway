@@ -1,5 +1,9 @@
-export interface ActorService<T> {
-  toggleDeviceState(actor: T): Promise<void>;
-  switchOnDevice(actor: T): Promise<boolean>;
-  switchOffDevice(actor: T): Promise<boolean>;
+import { actor } from "types/actor";
+
+export interface ActorService {
+  toggleActorState(actor: actor): Promise<void>;
+  switchOnActor(actor: actor): Promise<boolean>;
+  switchOffActor(actor: actor): Promise<boolean>;
+  getActorState(actor: actor): Promise<string>
+  getIdentifier(): string;
 }

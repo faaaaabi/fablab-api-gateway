@@ -1,15 +1,13 @@
-import DeviceService from 'services/device/DeviceService';
 import UserService from 'services/user/UserService';
-import { DeviceBookingRepository } from 'repositories/DeviceBookingRepository';
+import DeviceService from '../../services/device/DeviceService';
 
 const toggleDeviceState = (
   deviceService: DeviceService,
   userService: UserService,
-  deviceOccupationRespository: DeviceBookingRepository
 ) => async (req, res, next) => {
   try {
     if (await userService.isUserAllowedToUse(req.body.userUID)) {
-      await deviceService.toggleDeviceState(req.params.deviceName);
+      await actorService.toggleActorState(req.params.deviceName);
       res.send({ status: 'OK' });
     } else {
       res.status(401).send({ status: 'unauthorized' });

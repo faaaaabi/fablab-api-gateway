@@ -1,54 +1,61 @@
 import OpenhabClient from '../../clients/openhab/OpenhabClient';
-import DeviceNotFoundError from '../../errors/DeviceNotFoundError';
 import DeviceStateError from '../../errors/DeviceStateError';
+import { ActorService } from 'interfaces/ActorService';
+import { actor } from '../../types/actor';
 
-class DeviceService {
-  constructor(openhabClient: OpenhabClient) {
-    this.openhabClient = openhabClient;
-  }
-
+class OpenhabService implements ActorService {
   private openhabClient: OpenhabClient;
+  private identifier: string;
 
-  public async toggleDeviceState(deviceName: string): Promise<void> {
-    const deviceStateRequest = await this.openhabClient.getItem(deviceName);
-    if (deviceStateRequest.data.state === 'ON') {
-      this.openhabClient.switchItemOFF(deviceName);
+  constructor(openhabClient: OpenhabClient, identifier: string) {
+    this.openhabClient = openhabClient;
+    this.identifier = identifier;
+  }
+
+  public async toggleActorState(actor: actor): Promise<void> {
+    const actorStateRequest = await this.openhabClient.getItem(actor.identifier);
+    if (actorStateRequest.data.state === 'ON') {
+      this.openhabClient.switchItemOFF(actor.identifier);
     } else {
-      this.openhabClient.switchItemON(deviceName);
+      this.openhabClient.switchItemON(actor.identifier);
     }
   }
 
-  public async switchOnDevice(deviceName: string): Promise<boolean> {
-    const deviceStateRequest = await this.openhabClient.getItem(deviceName);
-    if (deviceStateRequest.data.state === 'ON') {
-      throw new DeviceStateError(`Device ${deviceName} has already ON state`);
+  public async switchOnActor(actor: actor): Promise<boolean> {
+    const actorStateRequest = await this.openhabClient.getItem(actor.identifier);
+    if (actorStateRequest.data.state === 'ON') {
+      throw new DeviceStateError(`Device ${actor.identifier} has already ON state`);
     } else {
-      this.openhabClient.switchItemON(deviceName);
+      this.openhabClient.switchItemON(actor.identifier);
       return true;
     }
   }
 
-  public async switchOffDevice(deviceName: string): Promise<boolean> {
-    const deviceStateRequest = await this.openhabClient.getItem(deviceName);
-    if (deviceStateRequest.data.state === 'OFF') {
-      throw new DeviceStateError(`Device ${deviceName} has already OFF state`);
+  public async switchOffActor(actor: actor): Promise<boolean> {
+    const actorStateRequest = await this.openhabClient.getItem(actor.identifier);
+    if (actorStateRequest.data.state === 'OFF') {
+      throw new DeviceStateError(`Device ${actor.identifier} has already OFF state`);
     } else {
-      this.openhabClient.switchItemOFF(deviceName);
+      this.openhabClient.switchItemOFF(actor.identifier);
       return true;
     }
   }
 
-  public async getDeviceState(deviceName: string): Promise<string> {
-    const deviceObject = await this.openhabClient.getItem(deviceName);
-    return deviceObject.data.state;
+  public async getActorState(actor: actor): Promise<string> {
+    const actorObject = await this.openhabClient.getItem(actor.identifier);
+    return actorObject.data.state;
   }
 
-  public async getDevice(name: string): Promise<Object> {
+  public async getActor(name: string): Promise<Object> {
     const device = await this.openhabClient.getItem(name);
     return device;
   }
 
-  public async getDevicesByGroup(groupName: string, metadataSeletor?: string): Promise<Object> {
+  getIdentifier(): string {
+    return this.identifier;
+  }
+
+  /*public async getDevicesByGroup(groupName: string, metadataSeletor?: string): Promise<Object> {
     const groupRequest = await this.openhabClient.getItem(groupName, metadataSeletor);
     if (groupRequest.data.type !== 'Group') {
       throw new DeviceNotFoundError('Group not found');
@@ -80,7 +87,7 @@ class DeviceService {
       }
     });
     return deviceLocationMap;
-  }
+  }*/
 }
 
-export default DeviceService;
+export default OpenhabService;
