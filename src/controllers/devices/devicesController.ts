@@ -1,41 +1,19 @@
-import UserService from 'services/user/UserService';
 import DeviceService from '../../services/device/DeviceService';
+import { ObjectID } from 'bson';
 
-const toggleDeviceState = (
-  deviceService: DeviceService,
-  userService: UserService,
-) => async (req, res, next) => {
+const getDevicesByID = (deviceService: DeviceService) => async (req, res, next) => {
   try {
-    if (await userService.isUserAllowedToUse(req.body.userUID)) {
-      await deviceService.toggleDeviceState(req.params.deviceName);
-      res.send({ status: 'OK' });
-    } else {
-      res.status(401).send({ status: 'unauthorized' });
+    const deviceObjectIDs: ObjectID[] = [];
+    if(req.query.id instanceof Array) {
+      req.query.id.forEach(deviceID => {
+        deviceObjectIDs.push(new ObjectID(deviceID));
+      });
     }
-  } catch (e) {
-    next(e);
-  }
-};
-
-const getDevicesByGroup = (deviceService: DeviceService) => async (req, res, next) => {
-  try {
-    const devices = await deviceService.getDevicesByGroup(req.params.groupName, 'position');
+    const devices = await deviceService.getDevicesByID(deviceObjectIDs);
     res.send({ devices });
   } catch (e) {
     next(e);
   }
 };
 
-const getDevicesByGroupAsLocationMap = (deviceService: DeviceService) => async (req, res, next) => {
-  try {
-    const locationMap = await deviceService.getDevicesByGroupAsLocationMap(
-      req.params.groupName,
-      'position'
-    );
-    res.send({ locationMap });
-  } catch (e) {
-    next(e);
-  }
-};
-
-export { toggleDeviceState, getDevicesByGroup, getDevicesByGroupAsLocationMap };
+export { getDevicesByID };

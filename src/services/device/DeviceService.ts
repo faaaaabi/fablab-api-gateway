@@ -70,8 +70,13 @@ class DeviceService {
     return actorState;
   }
 
-  public async getDevice(deviceID: ObjectID): Promise<Object> {
+  public async getDeviceByID(deviceID: ObjectID): Promise<Device> {
     const device: Device = await this.deviceRepository.findDeviceById(deviceID);
+    return device;
+  }
+
+  public async getDevicesByID(deviceIDs: ObjectID[]): Promise<Device[]> {
+    const device: Device[] = await this.deviceRepository.findDevicesByID(deviceIDs);
     return device;
   }
 }

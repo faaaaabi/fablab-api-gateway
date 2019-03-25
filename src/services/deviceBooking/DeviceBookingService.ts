@@ -20,13 +20,13 @@ export class DeviceBookingService {
     this.userService = userService;
   }
 
-  startBooking = async (deviceName: string, userUID: string): Promise<ObjectID> => {
+  startBooking = async (deviceID: ObjectID, userUID: string): Promise<ObjectID> => {
     const bookingTransaction = {
       bookingPersisted: false,
       deviceSwitchedOn: false
     };
-    const deviceBooking = new DeviceBooking(deviceName, userUID);
-    const deviceState: String = await this.deviceService.getDeviceState(deviceName);
+    const deviceBooking = new DeviceBooking(deviceID, userUID);
+    const deviceState: String = await this.deviceService.getDeviceState(deviceID);
 
     if (await this.deviceBookingRepository.findOne(deviceBooking)) {
       throw new BookingError('Device already present in other booking');
@@ -36,7 +36,7 @@ export class DeviceBookingService {
     }
     if (deviceState !== 'OFF' && deviceState !== 'NULL') {
       throw new BookingError(
-        `Device ${deviceName} should have state OFF but has state ON and is not present in any booking`
+        `Device ${deviceID} should have state OFF but has state ON and is not present in any booking`
       );
     }
 
@@ -45,7 +45,7 @@ export class DeviceBookingService {
       deviceBooking.setStartTime = new Date().valueOf();
       bookingID = await this.deviceBookingRepository.create(deviceBooking);
       bookingTransaction.bookingPersisted = true;
-      await this.deviceService.toggleDeviceState(deviceName);
+      await this.deviceService.toggleDeviceState(deviceID);
       bookingTransaction.deviceSwitchedOn = true;
       return bookingID;
     } catch (e) {
@@ -53,7 +53,7 @@ export class DeviceBookingService {
         await this.deviceBookingRepository.delete(bookingID);
       }
       if (bookingTransaction.deviceSwitchedOn) {
-        await this.deviceService.toggleDeviceState(deviceName);
+        await this.deviceService.toggleDeviceState(deviceID);
       }
       throw e;
     }
@@ -84,7 +84,7 @@ export class DeviceBookingService {
             deviceBooking.getID
           );
           bookingTransaction.deviceSwitchedOff = await this.deviceService.switchOffDevice(
-            deviceBooking.getDeviceName
+            deviceBooking.getDeviceID
           );
           await this.userService.createAndConfirmSalesOrder(userUID, 2);
           return bookingTransaction.bookingDeleted && bookingTransaction.deviceSwitchedOff;
@@ -94,16 +94,16 @@ export class DeviceBookingService {
           await this.deviceBookingRepository.create(deviceBooking);
         }
         if (bookingTransaction.deviceSwitchedOff) {
-          await this.deviceService.switchOnDevice(deviceBooking.getDeviceName);
+          await this.deviceService.switchOnDevice(deviceBooking.getDeviceID);
         }
         throw e;
       }
     }
   };
 
-  findBookings = async (deviceNames: Array<string>): Promise<DeviceBooking[]> => {
-    const deviceBooking: DeviceBooking[] = await this.deviceBookingRepository.findBookingsByDeviceNames(
-      deviceNames
+  findBookings = async (deviceIDs: Array<ObjectID>): Promise<DeviceBooking[]> => {
+    const deviceBooking: DeviceBooking[] = await this.deviceBookingRepository.findBookingsByDeviceIDs(
+      deviceIDs
     );
     return deviceBooking;
   };

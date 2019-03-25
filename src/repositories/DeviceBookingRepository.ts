@@ -5,8 +5,8 @@ import { DeleteWriteOpResultObject } from 'mongodb';
 
 
 export class DeviceBookingRepository extends BaseRepository<DeviceBooking> {
-  async findBookingsByDeviceNames(deviceNames: Array<string>): Promise<DeviceBooking[]> {
-    const result: DeviceBooking[] = await this.collection.find({deviceName: { $in: deviceNames }}).toArray();
+  async findBookingsByDeviceIDs(deviceIDs: Array<ObjectID>): Promise<DeviceBooking[]> {
+    const result: DeviceBooking[] = await this.collection.find({_id: { $in: deviceIDs }}).toArray();
     return result;
   }
   async findBookingById(bookingID: ObjectID): Promise<DeviceBooking> {

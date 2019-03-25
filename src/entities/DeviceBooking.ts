@@ -1,14 +1,14 @@
 import { ObjectID, ObjectId } from 'bson';
 
 export class DeviceBooking {
-  private deviceName: string;
+  private deviceID: ObjectID;
   private userUID: string;
   private startTime: number;
   private endTime: number;
   private _id: ObjectID;
 
-  constructor(deviceName?: string, userUID?: string, bookingID?: ObjectID) {
-    this.deviceName = deviceName;
+  constructor(deviceID?: ObjectID, userUID?: string, bookingID?: ObjectID) {
+    this.deviceID = deviceID;
     this.userUID = userUID;
     this._id = bookingID;
   }
@@ -17,8 +17,8 @@ export class DeviceBooking {
     this.startTime = startTime;
   };
 
-  get getDeviceName(): string {
-    return this.deviceName;
+  get getDeviceID(): ObjectID {
+    return this.deviceID;
   }
 
   get getUserID(): string {

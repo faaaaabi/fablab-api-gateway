@@ -13,7 +13,6 @@ import errorHandler from './middleware/errorHandler';
 
 // Routes
 import routes from './routes';
-import { RealtimeAccessDevice } from './entities/RealtimeAccessDevice';
 
 (async () => {
   try {
@@ -34,10 +33,10 @@ import { RealtimeAccessDevice } from './entities/RealtimeAccessDevice';
       console.log(`[Realtime API] Device connected ${socket.decoded_token.deviceID}`);
       socket.on('advertise', payload => {
         if (payload.accessDeviceName && payload.location) {
-          const realtimeAccessDevice = new RealtimeAccessDevice(
+          /*const realtimeAccessDevice = new RealtimeAccessDevice(
             payload.accessDeviceName,
             payload.location
-          );
+          );*/
         }
         socket.on('disconnect', () => {
           console.log(`[Realtime API] Device disconnected ${socket.decoded_token.deviceID}`);
