@@ -32,8 +32,8 @@ const endBooking = (deviceBookingService: DeviceBookingService) => async (req, r
 
 const getBooking = (deviceBookingService: DeviceBookingService) => async (req, res, next) => {
   try {
-    const deviceID = req.params.id
-    const deviceBookings: DeviceBooking = await deviceBookingService.findBooking(deviceID);
+    const bookingID = req.params.id
+    const deviceBookings: DeviceBooking = await deviceBookingService.findBooking(bookingID);
     res.status(200).send(deviceBookings);
   } catch (e) {
     next(e);

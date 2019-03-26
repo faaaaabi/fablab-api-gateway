@@ -67,7 +67,7 @@ export class DeviceBookingService {
     };
     const deviceBooking = Object.assign(
       new DeviceBooking(),
-      await this.deviceBookingRepository.findBookingById(new ObjectID(bookingID))
+      await this.deviceBookingRepository.findBookingByID(new ObjectID(bookingID))
     );
 
     if (!deviceBooking.getID) {
@@ -100,19 +100,24 @@ export class DeviceBookingService {
     }
   };
 
-  findBookings = async (deviceIDs: Array<ObjectID>): Promise<DeviceBooking[]> => {
-    const deviceBooking: DeviceBooking[] = await this.deviceBookingRepository.findBookingsByDeviceIDs(
-      deviceIDs.map(deviceID => {
-        return new ObjectID(deviceID);
-      })
+  findBookingsByDeviceID = async (deviceIDs: Array<ObjectID>): Promise<DeviceBooking[]> => {
+    const deviceBookings: DeviceBooking[] = await this.deviceBookingRepository.findBookingsByDeviceIDs(
+      deviceIDs
+    );
+    return deviceBookings;
+  };
+
+  findBooking = async (bookingID: ObjectID): Promise<DeviceBooking> => {
+    const deviceBooking: DeviceBooking = await this.deviceBookingRepository.findBookingByID(
+      bookingID
     );
     return deviceBooking;
   };
 
-  findBooking = async (deviceID: ObjectID): Promise<DeviceBooking> => {
-    const deviceBooking: DeviceBooking = await this.deviceBookingRepository.findBookingById(
-      deviceID
+  findBookings = async (bookingIDs: Array<ObjectID>): Promise<DeviceBooking[]> => {
+    const deviceBookings: DeviceBooking[] = await this.deviceBookingRepository.findBookingsByID(
+      bookingIDs
     );
-    return deviceBooking;
+    return deviceBookings;
   };
 }

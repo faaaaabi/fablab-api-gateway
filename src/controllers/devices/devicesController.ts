@@ -10,7 +10,8 @@ const getDevicesByID = (deviceService: DeviceService) => async (req, res, next) 
       });
     }
     const devices = await deviceService.getDevicesByID(deviceObjectIDs);
-    res.send({ devices });
+    
+    res.send(devices);
   } catch (e) {
     next(e);
   }

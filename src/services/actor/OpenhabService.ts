@@ -54,40 +54,6 @@ class OpenhabService implements ActorService {
   getIdentifier(): string {
     return this.identifier;
   }
-
-  /*public async getDevicesByGroup(groupName: string, metadataSeletor?: string): Promise<Object> {
-    const groupRequest = await this.openhabClient.getItem(groupName, metadataSeletor);
-    if (groupRequest.data.type !== 'Group') {
-      throw new DeviceNotFoundError('Group not found');
-    }
-    return groupRequest.data.members;
-  }
-
-  public async getDevicesByGroupAsLocationMap(
-    groupName: string,
-    metadataSeletor?: string
-  ): Promise<Object> {
-    const groupRequest = await this.openhabClient.getItem(groupName, metadataSeletor);
-    if (groupRequest.data.type !== 'Group') {
-      throw new Error('Group not found');
-    }
-    if (groupRequest.data.category !== 'Positional') {
-      throw new Error('No positional group');
-    }
-    const deviceLocationMap: object[][] = [];
-    groupRequest.data.members.forEach(element => {
-      if ('metadata' in element) {
-        const position = element.metadata.position.config;
-        if(!deviceLocationMap[position.y]) {
-          deviceLocationMap[position.y] = [];
-        }
-        delete element.metadata;
-        delete element.editable;
-        deviceLocationMap[position.y][position.x] = element;
-      }
-    });
-    return deviceLocationMap;
-  }*/
 }
 
 export default OpenhabService;
