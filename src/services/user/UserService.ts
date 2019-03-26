@@ -30,13 +30,13 @@ class UserService {
     return invoiceID;
   }
 
-  public async createSalesOrder(userID: string, productID: number): Promise<number> {
-    const saleOrderID = await this.odooClient.createSalesOrder(userID, productID);
+  public async createSalesOrder(userID: string, productID: string, quantity: number, productDescription: string): Promise<number> {
+    const saleOrderID = await this.odooClient.createSalesOrder(userID, productID, quantity, productDescription);
     return saleOrderID;
   }
 
-  public async createAndConfirmSalesOrder(userID: string, productID: number): Promise<number> {
-    const saleOrderID = await this.odooClient.createSalesOrder(userID, productID);
+  public async createAndConfirmSalesOrder(userID: string, productID: string, quantity: number, productDescription: string): Promise<number> {
+    const saleOrderID = await this.odooClient.createSalesOrder(userID, productID, quantity, productDescription);
     await this.odooClient.confirmSaleOrder(saleOrderID);
     await this.odooClient.createInvoiceFromSaleOrder(saleOrderID);
     //await this.odooClient.confirmInvoice(saleOrderID);

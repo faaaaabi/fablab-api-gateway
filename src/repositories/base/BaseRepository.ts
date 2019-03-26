@@ -1,7 +1,15 @@
 import { WritableRepo } from 'repositories/interfaces/WritableRepo';
 import { ReadableRepo } from 'repositories/interfaces/ReadableRepo';
 
-import { MongoClient, Db, Collection, InsertOneWriteOpResult, FindOneOptions, ObjectID, DeleteWriteOpResultObject } from 'mongodb';
+import {
+  MongoClient,
+  Db,
+  Collection,
+  InsertOneWriteOpResult,
+  FindOneOptions,
+  ObjectID,
+  DeleteWriteOpResultObject
+} from 'mongodb';
 import { Result } from 'range-parser';
 
 // that class only can be extended
@@ -20,7 +28,7 @@ export abstract class BaseRepository<T> implements WritableRepo<T>, ReadableRepo
     throw new Error('Method not implemented.');
   }
   async delete(id: ObjectID): Promise<boolean> {
-    const result: DeleteWriteOpResultObject = await this.collection.deleteOne({_id: id})
+    const result: DeleteWriteOpResultObject = await this.collection.deleteOne({ _id: id });
     return !!result.result.ok;
   }
   async findOne(item: T): Promise<T> {

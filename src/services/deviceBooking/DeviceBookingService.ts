@@ -5,18 +5,25 @@ import { DeviceBooking } from '../../entities/DeviceBooking';
 import BookingError from '../../errors/BookingError';
 import { ObjectID } from 'bson';
 import NotFoundError from '../../errors/NotFoundError';
+import { ProductReferenceRepository } from '../../repositories/ProductReferenceRepository';
+import { ProductReference } from '../../entities/ProductReference';
+import { Device } from '../../entities/Device';
+import moment = require('moment');
 
 export class DeviceBookingService {
   private deviceBookingRepository: DeviceBookingRepository;
+  private productReferenceRepository: ProductReferenceRepository;
   private deviceService: DeviceService;
   private userService: UserService;
 
   constructor(
     deviceBookingRepository: DeviceBookingRepository,
+    productReferenceRepository: ProductReferenceRepository,
     deviceService: DeviceService,
     userService: UserService
   ) {
     this.deviceBookingRepository = deviceBookingRepository;
+    this.productReferenceRepository = productReferenceRepository;
     this.deviceService = deviceService;
     this.userService = userService;
   }
@@ -43,7 +50,7 @@ export class DeviceBookingService {
 
     let bookingID: ObjectID;
     try {
-      deviceBooking.setStartTime = new Date().valueOf();
+      deviceBooking.setStartTime = Math.floor(new Date().valueOf() / 1000);
       bookingID = await this.deviceBookingRepository.create(deviceBooking);
       bookingTransaction.bookingPersisted = true;
       await this.deviceService.toggleDeviceState(deviceID);
@@ -87,7 +94,29 @@ export class DeviceBookingService {
       bookingTransaction.deviceSwitchedOff = await this.deviceService.switchOffDevice(
         deviceBooking.getDeviceID
       );
-      await this.userService.createAndConfirmSalesOrder(userUID, 2);
+
+      const device: Device = Object.assign(
+        new Device(),
+        await this.deviceService.getDeviceByID(deviceBooking.getDeviceID)
+      );
+
+      const productReference: ProductReference = Object.assign(
+        new ProductReference(),
+        await this.productReferenceRepository.findProductReferenceById(
+          device.getProductReferenceID()
+        )
+      );
+
+      console.log('getProductReferenceID:', device.getProductReferenceID());
+
+      const timeElapsed = moment().diff(moment.unix(deviceBooking.getStartTime), 'minutes') / 60;
+
+      await this.userService.createAndConfirmSalesOrder(
+        userUID,
+        productReference.getProductID(),
+        timeElapsed,
+        device.getDeviceName()
+      );
       return bookingTransaction.bookingDeleted && bookingTransaction.deviceSwitchedOff;
     } catch (e) {
       if (bookingTransaction.bookingDeleted) {

@@ -92,13 +92,13 @@ class OdooClient {
 
   public async createSalesOrder(
     rfidUuid: string,
-    productID: number,
+    productID: string,
+    quantity: number,
+    productDescription: string,
     items?: Object
   ): Promise<number> {
     await this.odooXmlRpcClient.connect();
     const user: any = await this.findUserByRfidUuid(rfidUuid);
-
-    console.log('order date: ', moment().format('YYYY-MM-DD HH:mm:ss'));
 
     const invoiceParams = {
       partner_id: user.id,
@@ -109,10 +109,10 @@ class OdooClient {
           0,
           0,
           {
-            product_id: 41,
-            product_uom_qty: 123,
-            qty_delivered: 123,
-            name: 'pupudipu123'
+            product_id: Number(productID),
+            product_uom_qty: quantity,
+            qty_delivered: quantity,
+            name: productDescription
           }
         ]
       ]
@@ -121,8 +121,6 @@ class OdooClient {
     const orderResult = await this.odooXmlRpcClient.execute_kw('sale.order', 'create', [
       [invoiceParams]
     ]);
-
-    console.log('order result:', orderResult);
 
     return orderResult[0];
   }
@@ -145,8 +143,6 @@ class OdooClient {
       ]
     );
 
-    console.log('orderInvoiceResult: ', orderInvoiceResult);
-
     const orderInvoiceCreateResult = await this.odooXmlRpcClient.execute_kw(
       'sale.advance.payment.inv',
       'create_invoices',
@@ -155,8 +151,6 @@ class OdooClient {
         { active_id: saleOrderID, active_ids: [saleOrderID], active_model: 'sale.order' }
       ]
     );
-
-    console.log('orderInvoiceCreateResult: ', orderInvoiceCreateResult);
 
     return orderInvoiceResult;
   }

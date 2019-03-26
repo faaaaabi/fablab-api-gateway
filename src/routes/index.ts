@@ -35,6 +35,7 @@ import { MongoClient, Db } from 'mongodb';
 import { DeviceBookingRepository } from '../repositories/DeviceBookingRepository';
 import { PlaceRepository } from '../repositories/PlaceRepository';
 import PlaceService from '../services/place/PlaceService';
+import { ProductReferenceRepository } from '../repositories/ProductReferenceRepository';
 
 const init = async (app: express.Application) => {
   /**
@@ -59,6 +60,7 @@ const init = async (app: express.Application) => {
   // DeviceBooking Service init
   const deviceBookingService = new DeviceBookingService(
     new DeviceBookingRepository(db, 'deviceBookings'),
+    new ProductReferenceRepository(db, 'productReferences'),
     deviceService,
     userService
   );

@@ -17,6 +17,10 @@ export class DeviceBooking {
     this.startTime = startTime;
   };
 
+  get getStartTime(): number {
+    return this.startTime;
+  };
+
   get getDeviceID(): ObjectID {
     return this.deviceID;
   }
