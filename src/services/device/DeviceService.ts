@@ -4,6 +4,7 @@ import { actor } from '../../types/actor';
 import { ObjectID } from 'bson';
 import { DeviceRepository } from '../../repositories/DeviceRepository';
 import { Device } from '../../entities/Device';
+import NotFoundError from '../../errors/NotFoundError';
 
 class DeviceService {
   private actorServices: ActorService[];
@@ -21,7 +22,10 @@ class DeviceService {
   }
 
   public async toggleDeviceState(deviceID: ObjectID): Promise<void> {
-    const device: Device = await this.deviceRepository.findDeviceById(deviceID);
+    const device: Device = Object.assign(
+      new Device(),
+      await this.deviceRepository.findDeviceById(deviceID)
+    );
     const actor: actor = device.getActor();
     const actorService: ActorService = this.getActorService(actor);
 
@@ -34,7 +38,10 @@ class DeviceService {
   }
 
   public async switchOnDevice(deviceID: ObjectID): Promise<boolean> {
-    const device: Device = await this.deviceRepository.findDeviceById(deviceID);
+    const device: Device = Object.assign(
+      new Device(),
+      await this.deviceRepository.findDeviceById(deviceID)
+    );
     const actor: actor = device.getActor();
     const actorService: ActorService = this.getActorService(actor);
 
@@ -48,7 +55,10 @@ class DeviceService {
   }
 
   public async switchOffDevice(deviceID: ObjectID): Promise<boolean> {
-    const device: Device = await this.deviceRepository.findDeviceById(deviceID);
+    const device: Device = Object.assign(
+      new Device(),
+      await this.deviceRepository.findDeviceById(deviceID)
+    );
     const actor: actor = device.getActor();
     const actorService: ActorService = this.getActorService(actor);
 
@@ -62,7 +72,10 @@ class DeviceService {
   }
 
   public async getDeviceState(deviceID: ObjectID): Promise<string> {
-    const device: Device = await this.deviceRepository.findDeviceById(deviceID);
+    const device: Device = Object.assign(
+      new Device(),
+      await this.deviceRepository.findDeviceById(deviceID)
+    );
     const actor: actor = device.getActor();
     const actorService: ActorService = this.getActorService(actor);
     const actorState = await actorService.getActorState(actor);
@@ -72,12 +85,19 @@ class DeviceService {
 
   public async getDeviceByID(deviceID: ObjectID): Promise<Device> {
     const device: Device = await this.deviceRepository.findDeviceById(deviceID);
+    if (device === null) {
+      throw new NotFoundError('The requested device could not be found');
+    }
+
     return device;
   }
 
   public async getDevicesByID(deviceIDs: ObjectID[]): Promise<Device[]> {
-    const device: Device[] = await this.deviceRepository.findDevicesByID(deviceIDs);
-    return device;
+    const devices: Device[] = await this.deviceRepository.findDevicesByID(deviceIDs);
+    if (devices.length === 0) {
+      throw new NotFoundError('The requested devices could not be found');
+    }
+    return devices;
   }
 }
 

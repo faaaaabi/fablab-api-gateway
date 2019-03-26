@@ -12,7 +12,7 @@ const bookDevice = (
 ) => async (req, res, next) => {
   try {
     jwt.verify(req.body.intermediateToken, jwtSecret);
-    const bookingID: ObjectID = await deviceBookingService.startBooking(req.body.deviceName, req.body.userUID);
+    const bookingID = await deviceBookingService.startBooking(req.body.deviceID, req.body.userUID);
     res.status(201).send({ status: 'OK', bookingID });
   } catch (e) {
     next(e);
@@ -21,23 +21,23 @@ const bookDevice = (
 
 const endBooking = (deviceBookingService: DeviceBookingService) => async (req, res, next) => {
   try {
-    const bookingID: string = req.body.bookingID
+    const bookingID: string = req.params.id
     const intermediateToken: intermediateToken = (<any>jwt).verify(req.body.intermediateToken, jwtSecret);
-    await deviceBookingService.endBooking(bookingID, intermediateToken.userID);
-    res.status(204).send({ status: 'OK' });
+    await deviceBookingService.endBooking(bookingID, '6B26F733');
+    res.status(200).send({ status: 'OK' });
   } catch (e) {
     next(e)
   }
 }
 
-const getDeviceBooking = (deviceBookingService: DeviceBookingService) => async (req, res, next) => {
+const getBooking = (deviceBookingService: DeviceBookingService) => async (req, res, next) => {
   try {
-    const deviceIDs = req.query.ids.split(',');
-    const deviceBookings: DeviceBooking[] = await deviceBookingService.findBookings(deviceIDs);
+    const deviceID = req.params.id
+    const deviceBookings: DeviceBooking = await deviceBookingService.findBooking(deviceID);
     res.status(200).send(deviceBookings);
   } catch (e) {
     next(e);
   }
 };
 
-export { bookDevice, endBooking, getDeviceBooking };
+export { bookDevice, endBooking, getBooking };

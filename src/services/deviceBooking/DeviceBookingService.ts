@@ -4,6 +4,7 @@ import UserService from '../../services/user/UserService';
 import { DeviceBooking } from '../../entities/DeviceBooking';
 import BookingError from '../../errors/BookingError';
 import { ObjectID } from 'bson';
+import NotFoundError from '../../errors/NotFoundError';
 
 export class DeviceBookingService {
   private deviceBookingRepository: DeviceBookingRepository;
@@ -28,7 +29,7 @@ export class DeviceBookingService {
     const deviceBooking = new DeviceBooking(deviceID, userUID);
     const deviceState: String = await this.deviceService.getDeviceState(deviceID);
 
-    if (await this.deviceBookingRepository.findOne(deviceBooking)) {
+    if (await this.deviceBookingRepository.findBookingByDeviceID(deviceID)) {
       throw new BookingError('Device already present in other booking');
     }
     if (!(await this.userService.isUserAllowedToUse(userUID))) {
@@ -69,41 +70,48 @@ export class DeviceBookingService {
       await this.deviceBookingRepository.findBookingById(new ObjectID(bookingID))
     );
 
-    if (DeviceBooking) {
-      if (deviceBooking.getUserID !== userUID) {
-        throw new BookingError(
-          `Requesting user with ID ${userUID} is not owner of booking with ID ${
-            deviceBooking.getID
-          }`
-        );
-      }
+    if (!deviceBooking.getID) {
+      throw new NotFoundError('the requested booking was not');
+    }
 
-      try {
-        if (deviceBooking) {
-          bookingTransaction.bookingDeleted = await this.deviceBookingRepository.deleteBookingById(
-            deviceBooking.getID
-          );
-          bookingTransaction.deviceSwitchedOff = await this.deviceService.switchOffDevice(
-            deviceBooking.getDeviceID
-          );
-          await this.userService.createAndConfirmSalesOrder(userUID, 2);
-          return bookingTransaction.bookingDeleted && bookingTransaction.deviceSwitchedOff;
-        }
-      } catch (e) {
-        if (bookingTransaction.bookingDeleted) {
-          await this.deviceBookingRepository.create(deviceBooking);
-        }
-        if (bookingTransaction.deviceSwitchedOff) {
-          await this.deviceService.switchOnDevice(deviceBooking.getDeviceID);
-        }
-        throw e;
+    if (deviceBooking.getUserID !== userUID) {
+      throw new BookingError(
+        `Requesting user with ID ${userUID} is not owner of booking with ID ${deviceBooking.getID}`
+      );
+    }
+
+    try {
+      bookingTransaction.bookingDeleted = await this.deviceBookingRepository.deleteBookingById(
+        deviceBooking.getID
+      );
+      bookingTransaction.deviceSwitchedOff = await this.deviceService.switchOffDevice(
+        deviceBooking.getDeviceID
+      );
+      await this.userService.createAndConfirmSalesOrder(userUID, 2);
+      return bookingTransaction.bookingDeleted && bookingTransaction.deviceSwitchedOff;
+    } catch (e) {
+      if (bookingTransaction.bookingDeleted) {
+        await this.deviceBookingRepository.create(deviceBooking);
       }
+      if (bookingTransaction.deviceSwitchedOff) {
+        await this.deviceService.switchOnDevice(deviceBooking.getDeviceID);
+      }
+      throw e;
     }
   };
 
   findBookings = async (deviceIDs: Array<ObjectID>): Promise<DeviceBooking[]> => {
     const deviceBooking: DeviceBooking[] = await this.deviceBookingRepository.findBookingsByDeviceIDs(
-      deviceIDs
+      deviceIDs.map(deviceID => {
+        return new ObjectID(deviceID);
+      })
+    );
+    return deviceBooking;
+  };
+
+  findBooking = async (deviceID: ObjectID): Promise<DeviceBooking> => {
+    const deviceBooking: DeviceBooking = await this.deviceBookingRepository.findBookingById(
+      deviceID
     );
     return deviceBooking;
   };

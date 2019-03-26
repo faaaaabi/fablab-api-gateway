@@ -13,6 +13,9 @@ const errorHandler =(err, req, res, next) => {
         case 'DeviceNotFoundError':
           responseCode = 404;
           break;
+        case 'NotFoundError':
+        responseCode = 404;
+        break;
         case 'DeviceStateError':
           responseCode = 500;
           break;

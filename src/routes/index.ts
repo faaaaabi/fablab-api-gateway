@@ -1,11 +1,12 @@
 import * as express from 'express';
 
 // Routes
-import userRoutes from './users/userRoutes';
-import deviceRoutes from './devices/deviceRoutes';
-import devicesRoutes from './devices/devicesRoutes';
+import userRoutes from './user/userRoutes';
+import deviceRoutes from './device/deviceRoutes';
+import devicesRoutes from './device/devicesRoutes';
 import authRoutes from './auth/authRoutes';
-import bookingRoutes from './bookings/bookingRoutes';
+import bookingRoutes from './booking/bookingRoutes';
+import bookingsRoutes from './booking/bookingsRoutes';
 import placeRoutes from './place/placeRoutes';
 
 // Load passport and authentication configuration
@@ -65,22 +66,27 @@ const init = async (app: express.Application) => {
   app.use('/users', passport.authenticate('jwt', { session: false }), userRoutes(userService));
   app.use(
     '/device',
-    //passport.authenticate('jwt', { session: false }),
+    passport.authenticate('jwt', { session: false }),
     deviceRoutes(deviceService)
   );
   app.use(
     '/devices',
-    //passport.authenticate('jwt', { session: false }),
+    passport.authenticate('jwt', { session: false }),
     devicesRoutes(deviceService)
   );
   app.use(
-    '/bookings',
-    //passport.authenticate('jwt', { session: false }),
+    '/booking',
+    passport.authenticate('jwt', { session: false }),
     bookingRoutes(deviceBookingService)
   );
   app.use(
+    '/bookings',
+    passport.authenticate('jwt', { session: false }),
+    bookingsRoutes(deviceBookingService)
+  );
+  app.use(
     '/place',
-    //passport.authenticate('jwt', { session: false }),
+    passport.authenticate('jwt', { session: false }),
     placeRoutes(placeService)
   );
   app.use('/auth', authRoutes);
