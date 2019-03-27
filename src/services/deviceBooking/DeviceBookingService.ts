@@ -107,14 +107,12 @@ export class DeviceBookingService {
         )
       );
 
-      console.log('getProductReferenceID:', device.getProductReferenceID());
-
-      const timeElapsed = moment().diff(moment.unix(deviceBooking.getStartTime), 'minutes') / 60;
+      const timeElapsed = moment().diff(moment.unix(deviceBooking.getStartTime), 'hours');
 
       await this.userService.createAndConfirmSalesOrder(
         userUID,
         productReference.getProductID(),
-        timeElapsed,
+        timeElapsed > 0 ? timeElapsed : 0.01,
         device.getDeviceName()
       );
       return bookingTransaction.bookingDeleted && bookingTransaction.deviceSwitchedOff;
