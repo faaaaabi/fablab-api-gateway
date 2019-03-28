@@ -6,6 +6,7 @@ export class Device {
   private _id: ObjectID;
   private deviceName: string;
   private productReferenceID: ObjectID;
+  private isOutOfOrder: boolean;
   private productReference: ProductReference[];
   private actor: actor;
   private requiresSequrityConfirmation: boolean;
@@ -14,6 +15,7 @@ export class Device {
     deviceID?: ObjectID,
     deviceName?: string,
     productReferenceID?: ObjectID,
+    isOutOfOrder?: boolean,
     actor?: actor,
     requiresSequrityConfirmation?: boolean
   );
@@ -21,6 +23,7 @@ export class Device {
     deviceID?: ObjectID,
     deviceName?: string,
     productReferenceID?: ObjectID,
+    isOutOfOrder?: boolean,
     actor?: actor,
     requiresSequrityConfirmation?: boolean,
     productReference?: ProductReference[]
@@ -28,6 +31,7 @@ export class Device {
     this._id = deviceID;
     this.deviceName = deviceName;
     this.productReferenceID = productReferenceID;
+    this.isOutOfOrder = isOutOfOrder;
     this.productReference = productReference;
     this.actor = actor;
     this.requiresSequrityConfirmation = requiresSequrityConfirmation;
