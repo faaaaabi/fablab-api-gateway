@@ -15,15 +15,16 @@ class OdooClient {
       ['x_RFID_Card_UUID', 'name', 'x_hadSecurityBriefing', 'x_isAdmin']
     ]; // fields to return
     const result = await this.odooXmlRpcClient.execute_kw('res.partner', 'search_read', params);
+    
+    if (result.length === 0) {
+      throw new UserNotFoundError(`User with ID ${rfidUuid} not found`);
+    }
+    
     const userObject = result[0];
     userObject.userID = userObject.x_RFID_Card_UUID;
     delete userObject.x_RFID_Card_UUID;
     userObject.hasSecurityBriefing = userObject.x_hadSecurityBriefing;
     delete userObject.x_hadSecurityBriefing;
-
-    if (result.length === 0) {
-      throw new UserNotFoundError(`User with ID ${rfidUuid} not found`);
-    }
 
     return userObject;
   }

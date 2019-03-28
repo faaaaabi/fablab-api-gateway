@@ -23,7 +23,7 @@ const endBooking = (deviceBookingService: DeviceBookingService) => async (req, r
   try {
     const bookingID: string = req.params.id
     const intermediateToken: intermediateToken = (<any>jwt).verify(req.body.intermediateToken, jwtSecret);
-    await deviceBookingService.endBooking(bookingID, '6B26F733');
+    await deviceBookingService.endBooking(bookingID, intermediateToken.userID);
     res.status(200).send({ status: 'OK' });
   } catch (e) {
     next(e)
