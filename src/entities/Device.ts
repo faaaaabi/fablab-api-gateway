@@ -1,8 +1,8 @@
 import { ObjectID, ObjectId } from 'bson';
 import { actor } from '../types/actor';
-import { ProductReference } from './ProductReference';
+import ProductReference from './ProductReference';
 
-export class Device {
+export default class Device {
   private _id: ObjectID;
   private deviceName: string;
   private productReferenceID: ObjectID;

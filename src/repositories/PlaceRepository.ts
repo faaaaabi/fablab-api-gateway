@@ -1,10 +1,10 @@
-import { BaseRepository } from './base/BaseRepository';
+import BaseRepository from './base/BaseRepository';
 import { ObjectID } from 'bson';
 import { DeleteWriteOpResultObject } from 'mongodb';
-import { Place } from '../entities/Place';
+import Place from '../entities/Place';
 
 
-export class PlaceRepository extends BaseRepository<Place> {
+export default class PlaceRepository extends BaseRepository<Place> {
   async findPlaceById(placeID: ObjectID): Promise<Place> {
     const result: Place = await this.collection.findOne({_id: new ObjectID(placeID)});
     return result;

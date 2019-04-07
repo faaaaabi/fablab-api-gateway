@@ -1,10 +1,6 @@
-import { DeviceBookingService } from 'services/deviceBooking/DeviceBookingService';
-import { DeviceBooking } from 'entities/DeviceBooking';
-import * as jwt from 'jsonwebtoken';
-import { ObjectID } from 'bson';
-import { intermediateToken } from '../../types/intermediateToken';
+import DeviceBookingService from 'services/deviceBooking/DeviceBookingService';
+import DeviceBooking from 'entities/DeviceBooking';
 const config = require('config');
-const jwtSecret: string = config.get('JWT').secret
 
 const getBookingsByDeviceIDs = (deviceBookingService: DeviceBookingService) => async (req, res, next) => {
   try {

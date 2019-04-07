@@ -1,6 +1,6 @@
 import { ObjectID, ObjectId } from 'bson';
 
-export class DeviceBooking {
+export default class DeviceBooking {
   private deviceID: ObjectID;
   private userUID: string;
   private startTime: number;

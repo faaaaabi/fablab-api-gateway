@@ -1,9 +1,9 @@
-import { DeviceBooking } from '../entities/DeviceBooking';
-import { BaseRepository } from './base/BaseRepository';
+import DeviceBooking from '../entities/DeviceBooking';
+import BaseRepository from './base/BaseRepository';
 import { ObjectID } from 'bson';
 import { DeleteWriteOpResultObject } from 'mongodb';
 
-export class DeviceBookingRepository extends BaseRepository<DeviceBooking> {
+export default class DeviceBookingRepository extends BaseRepository<DeviceBooking> {
   async findBookingsByDeviceIDs(deviceIDs: Array<ObjectID>): Promise<DeviceBooking[]> {
     const result: DeviceBooking[] = await this.collection
       .find({ deviceID: { $in: deviceIDs } })

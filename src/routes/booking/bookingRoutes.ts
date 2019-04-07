@@ -1,6 +1,6 @@
 const bookingRoutes = require('express').Router();
 import { bookDevice, getBooking, endBooking } from '../../controllers/booking/bookingController';
-import { DeviceBookingService } from '../../services/deviceBooking/DeviceBookingService';
+import DeviceBookingService from '../../services/deviceBooking/DeviceBookingService';
 
 const routes = function(
   deviceBookingService: DeviceBookingService

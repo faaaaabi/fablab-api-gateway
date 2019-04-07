@@ -1,6 +1,6 @@
 import { ObjectID } from 'bson';
-import { PlaceRepository } from '../../repositories/PlaceRepository';
-import { Place } from '../../entities/Place';
+import PlaceRepository from '../../repositories/PlaceRepository';
+import Place from '../../entities/Place';
 
 class PlaceService {
   private placeRepository: PlaceRepository;

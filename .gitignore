@@ -1,6 +1,8 @@
 node_modules/
 dist/
 config/default.json
+config/development.json
+config/production.json
 .nyc_output/
 coverage/
 .idea/

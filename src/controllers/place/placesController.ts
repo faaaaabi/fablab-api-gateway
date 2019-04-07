@@ -1,4 +1,4 @@
-import { Place } from '../../entities/Place';
+import Place from '../../entities/Place';
 
 const getPlace = placeService => async (req, res, next) => {
   try {

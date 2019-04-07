@@ -1,7 +1,6 @@
 import * as express from 'express';
 
-// Routes
-import userRoutes from './user/userRoutes';
+// Route imports
 import deviceRoutes from './device/deviceRoutes';
 import devicesRoutes from './device/devicesRoutes';
 import authRoutes from './auth/authRoutes';
@@ -16,26 +15,26 @@ require('../passport');
 // Load Config & necessary parameters
 const config = require('config');
 
-// Odoo Init
-import UserService from '../services/user/UserService';
+// Client imports
 const odooXmlRpc = require('../libs/odoo-xmlrpc');
 import OdooClient from '../clients/odoo/OdooClient';
-const userService = new UserService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
-
-// Actor init
 import OpenhabClient from '../clients/openhab/OpenhabClient';
-import DeviceService from '../services/device/DeviceService';
-import { DeviceBookingService } from '../services/deviceBooking/DeviceBookingService';
-import { ActorService } from '../interfaces/ActorService';
-import OpenhabService from '../services/actor/OpenhabService';
-import { DeviceRepository } from '../repositories/DeviceRepository';
 
-// DB imports
-import { MongoClient, Db } from 'mongodb';
-import { DeviceBookingRepository } from '../repositories/DeviceBookingRepository';
-import { PlaceRepository } from '../repositories/PlaceRepository';
+// Service imports
+import DeviceService from '../services/device/DeviceService';
+import DeviceBookingService from '../services/deviceBooking/DeviceBookingService';
+import ActorService from '../interfaces/ActorService';
+import OpenhabService from '../services/actor/OpenhabService';
 import PlaceService from '../services/place/PlaceService';
-import { ProductReferenceRepository } from '../repositories/ProductReferenceRepository';
+import UserService from '../services/user/UserService';
+
+
+// Database and repository imports
+import { MongoClient, Db } from 'mongodb';
+import DeviceBookingRepository from '../repositories/DeviceBookingRepository';
+import PlaceRepository from '../repositories/PlaceRepository';
+import ProductReferenceRepository from '../repositories/ProductReferenceRepository';
+import DeviceRepository from '../repositories/DeviceRepository';
 
 const init = async (app: express.Application) => {
   /**
@@ -48,10 +47,16 @@ const init = async (app: express.Application) => {
   });
   db = dbConnection.db(database);
 
-  // Place service ini
+  /**
+   * Service initialization and depenedency injection
+   */
+  // User service Init
+  const userService = new UserService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
+
+  // Place service init
   const placeService: PlaceService = new PlaceService(new PlaceRepository(db, 'places'));
 
-  // Actorservices Init
+  // Actor services Init
   const actorServices: ActorService[] = [
     new OpenhabService(new OpenhabClient(config.get('openhab-client')), 'openhab')
   ];
@@ -65,11 +70,7 @@ const init = async (app: express.Application) => {
     userService
   );
 
-  app.use(
-    '/device',
-    passport.authenticate('jwt', { session: false }),
-    deviceRoutes(deviceService)
-  );
+  app.use('/device', passport.authenticate('jwt', { session: false }), deviceRoutes(deviceService));
   app.use(
     '/devices',
     passport.authenticate('jwt', { session: false }),
@@ -85,11 +86,7 @@ const init = async (app: express.Application) => {
     passport.authenticate('jwt', { session: false }),
     bookingsRoutes(deviceBookingService)
   );
-  app.use(
-    '/place',
-    passport.authenticate('jwt', { session: false }),
-    placeRoutes(placeService)
-  );
+  app.use('/place', passport.authenticate('jwt', { session: false }), placeRoutes(placeService));
   app.use('/auth', authRoutes);
 };
 

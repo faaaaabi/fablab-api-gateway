@@ -1,9 +1,9 @@
 import DeviceStateError from '../../errors/DeviceStateError';
-import { ActorService } from '../../interfaces/ActorService';
+import ActorService from '../../interfaces/ActorService';
 import { actor } from '../../types/actor';
 import { ObjectID } from 'bson';
-import { DeviceRepository } from '../../repositories/DeviceRepository';
-import { Device } from '../../entities/Device';
+import DeviceRepository from '../../repositories/DeviceRepository';
+import Device from '../../entities/Device';
 import NotFoundError from '../../errors/NotFoundError';
 
 class DeviceService {

@@ -1,7 +1,7 @@
 import { ObjectID } from 'bson';
 import { PlaceType } from '../types/PlaceType';
 
-export class Place {
+export default class Place {
   private _id: ObjectID;
   private placeName: string;
   private placeLabel: string;

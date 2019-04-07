@@ -1,6 +1,6 @@
 import { actor } from "types/actor";
 
-export interface ActorService {
+export default interface ActorService {
   toggleActorState(actor: actor): Promise<void>;
   switchOnActor(actor: actor): Promise<boolean>;
   switchOffActor(actor: actor): Promise<boolean>;

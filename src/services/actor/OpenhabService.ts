@@ -1,6 +1,6 @@
 import OpenhabClient from '../../clients/openhab/OpenhabClient';
 import DeviceStateError from '../../errors/DeviceStateError';
-import { ActorService } from 'interfaces/ActorService';
+import ActorService from 'interfaces/ActorService';
 import { actor } from '../../types/actor';
 
 class OpenhabService implements ActorService {

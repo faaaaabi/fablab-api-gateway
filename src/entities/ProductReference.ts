@@ -1,6 +1,6 @@
 import { ObjectID } from 'bson';
 
-export class ProductReference {
+export default class ProductReference {
   private _id: ObjectID;
   private erpIdentifier: string;
   private productID: string;

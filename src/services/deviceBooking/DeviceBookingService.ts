@@ -1,16 +1,16 @@
-import { DeviceBookingRepository } from '../../repositories/DeviceBookingRepository';
+import DeviceBookingRepository from '../../repositories/DeviceBookingRepository';
 import DeviceService from '../../services/device/DeviceService';
 import UserService from '../../services/user/UserService';
-import { DeviceBooking } from '../../entities/DeviceBooking';
+import DeviceBooking from '../../entities/DeviceBooking';
 import BookingError from '../../errors/BookingError';
 import { ObjectID } from 'bson';
 import NotFoundError from '../../errors/NotFoundError';
-import { ProductReferenceRepository } from '../../repositories/ProductReferenceRepository';
-import { ProductReference } from '../../entities/ProductReference';
-import { Device } from '../../entities/Device';
+import ProductReferenceRepository from '../../repositories/ProductReferenceRepository';
+import ProductReference from '../../entities/ProductReference';
+import Device from '../../entities/Device';
 import moment = require('moment');
 
-export class DeviceBookingService {
+export default class DeviceBookingService {
   private deviceBookingRepository: DeviceBookingRepository;
   private productReferenceRepository: ProductReferenceRepository;
   private deviceService: DeviceService;

@@ -13,7 +13,7 @@ import {
 import { Result } from 'range-parser';
 
 // that class only can be extended
-export abstract class BaseRepository<T> implements WritableRepo<T>, ReadableRepo<T> {
+export default abstract class BaseRepository<T> implements WritableRepo<T>, ReadableRepo<T> {
   public readonly collection: Collection;
 
   constructor(db: Db, collectionName: string) {
