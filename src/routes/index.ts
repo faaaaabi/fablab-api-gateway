@@ -65,7 +65,6 @@ const init = async (app: express.Application) => {
     userService
   );
 
-  app.use('/users', passport.authenticate('jwt', { session: false }), userRoutes(userService));
   app.use(
     '/device',
     passport.authenticate('jwt', { session: false }),
