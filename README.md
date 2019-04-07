@@ -94,3 +94,13 @@ openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht ledeiglic
   </group>
 </page>
 ``` 
+
+## Architecture
+
+### Systemarchitektur
+Folgende Grafik zeigt die grobe Systemarchitektur:
+
+![Architecture](./readme/architectureV2.png)
+
+### Applikationsarchitektur
+![Architecture](./readme/softwareArchitecture.png)
