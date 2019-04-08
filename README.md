@@ -177,7 +177,7 @@ Gibt ein einzelnes Device mit der ID `:id` zurück. Bei der `:id` handelt es sic
 }
 ```
 
------------------
+----------------------
 
 ```
 GET /devices/?id=[deviceID1]&id=[deviceID2]
@@ -217,7 +217,7 @@ Gibt alle in der query variable `id` angefragten Devices als Array zurück. Bei 
 ]
 ```
 
----------
+----------------------
 
 ```
 GET /place/:id
@@ -270,6 +270,30 @@ Gibt den Place mit der ID `:id` zurück. Bei der `:id` handelt es sich um die Ob
     ]
 }
 ```
+----------------------
+
+```
+GET /booking/:id
+```
+Gibt die Buchung mit der ID `:id` zurück. Bei der `:id` handelt es sich um die ObjectID aus der MongoDB.
+
+### Header
+| Key           |              Value                 | 
+|---------------|------------------------------------|
+| Authorization | Bearer [Token]                     |
+
+[Token] ist der unter `/auth/app` erworbene Tolen
+
+### Response
+```JSON
+{
+    "_id": "5ca0b960544bb57d50f6aa3f",
+    "deviceID": "5c95e67e85c19400095d7d73",
+    "userUID": "9D909C1E",
+    "startTime": 1554037088
+}
+```
+----------------------
 
 ```
 GET /bookings/?deviceID=[deviceID1]&deviceID=[deviceID2]
@@ -302,3 +326,70 @@ Gibt alle Buchungen der in der query variable `deviceID` angefragten Devices als
 ```
 `startime` ist ein Unix Timestamp
 
+----------------------
+
+```
+POST /booking
+```
+Erzeugt eine Buchung in der Datenbank (MongoDB) und gibt ein ein JSON Objekt der id der angelegten Buchung zurück
+
+### Header
+| Key           |              Value                 | 
+|---------------|------------------------------------|
+| Authorization | Bearer [Token]                     |
+| Accept        | application/json                   |
+| Content-Type  | application/json                   |
+
+[Token] ist der unter `/auth/app` erworbene Tolen
+
+### Body
+```JSON
+{
+      deviceID: deviceID,
+      userUID: userID,
+      intermediateToken: intermediateToken
+}
+```
+`deviceID` ist die ObjectID (_id) des Devices aus MongoDB. `userUID` die in odoo hinterlegte RFID UUID. `intermediateToken` ist der über die Route `/auth/user` bezogene Token.
+
+
+### Response
+```JSON
+{
+    "status": "OK",
+    "bookingID": "5cab7dad3bc0285e7a838865"
+}
+```
+
+----------------------
+
+
+```
+DELETE /booking/:id
+```
+Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
+
+### Header
+| Key           |              Value                 | 
+|---------------|------------------------------------|
+| Authorization | Bearer [Token]                     |
+| Accept        | application/json                   |
+| Content-Type  | application/json                   |
+
+[Token] ist der unter `/auth/app` erworbene Tolen
+
+### Body
+```JSON
+{
+      intermediateToken: intermediateToken
+}
+```
+`intermediateToken` ist der über die Route `/auth/user` bezogene Token.
+
+
+### Response
+```JSON
+{
+    "status": "OK"
+}
+```
