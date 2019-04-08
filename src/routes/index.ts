@@ -48,7 +48,7 @@ const init = async (app: express.Application) => {
   db = dbConnection.db(database);
 
   /**
-   * Service initialization and depenedency injection
+   * Service initialization and dependency injection
    */
   // User service Init
   const userService = new UserService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));

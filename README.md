@@ -25,7 +25,7 @@ $ npm install
 ```bash
 $ npm run test
 ```
-**Info:** Die Tests sind nach einem größeren Refacotring nicht funktional
+**Info:** Die Tests sind nach einem größeren Refactoring nicht funktional
 
 ### Starten der Entwicklungsumgebung Umgebung
 ```bash
@@ -58,7 +58,7 @@ Hier empfiehlt sich der einfacheit halber die Verwendung von `docker-compose`. D
 * Addon installieren
 
 ### RestAPI
-openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht ledeiglich das Arbeiten mit dieser.
+openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht lediglich das Arbeiten mit dieser.
 * Rest API Documentation installieren
   * Addons -> Misc -> REST Documentation 
 
@@ -67,16 +67,16 @@ openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht ledeiglic
 * Thing Channel (z.B. Switch) einem Item zuweisen.
 Openhab Doku: [link](https://www.openhab.org/docs/configuration/paperui.html)
 
-## odoo konfiguration
+## odoo Konfiguration
 
 ### Zusätzliche Felder in den Kundenkontakten anlegen
-1. Entwicklermodus öffnen im odoo Frontend öffnen
+1. Entwicklermodus im odoo Frontend öffnen
 2. Im Kontext Menü unter Felder anzeigen, folgende Felder anlegen
    1. x_RFID_Card_UUID , Type: String
    2. x_hadSecurityBriefing , Type: Boolean
    
 ### View der Kontaktansicht anpassen
-1. Reiter in der Kundenkarteikarte mit Fablab spezifischen Feldern anzeigen
+1. Reiter in der Kundenkarteikarte mit Fablab spezifischen Feldern anlegen
    1. Enwticklermodus öffnen
    2. Im Kontext Menü unter Edit View: Formular, im XML des Views das Elternelement `<notebook colspan="4">` um folgendes Pageelement erweitern:
 ```xml
@@ -92,7 +92,7 @@ Openhab Doku: [link](https://www.openhab.org/docs/configuration/paperui.html)
 </page>
 ``` 
 ### Artikel für Maschinen/Geräte-Stunden anlegen
-* Artikel als Serviceleistung alegen unter `Lager->Stammdaten->Produkte`
+* Artikel als Serviceleistung anlegen unter `Lager->Stammdaten->Produkte`
   * Die odoo Artikel ID lässt sich aus der URL in der Stammdatenansicht des Produktes entnehmen
 
 ## Datenmodell in MongoDB erstellen
@@ -144,7 +144,7 @@ Gibt bei erfolgreicher Authentifizierung einen Token für das Zugriffsgerät (Ge
 #### Body
 `deviceID=[DeviceIdentifier]&apiKey=[APIKey]` 
 
-Der API wird in der Config gesetzt. Device Identifier ist momentan noch hardcodiert auf "AccessDevice1". Die Authetifizierung der Zugriffsgeräte ist bestand archtektureller Veränderungen. Der Plan ist hier, dass Geräte einem Place zugewiesen werden und jeweils einen eigenen API erhalten
+Der API Key wird in der Config gesetzt. Device Identifier ist momentan noch hardcodiert auf "AccessDevice1". Die Authetifizierung der Zugriffsgeräte ist bestand architektureller Veränderungen. Der Plan ist hier, dass Geräte einem Place zugewiesen werden und jeweils einen eigenen API erhalten
 
 #### Response
 ```JSON
@@ -260,7 +260,7 @@ Gibt alle in der query variable `id` angefragten Devices als Array zurück. Bei 
 ```
 GET /place/:id
 ```
-Gibt den Place mit der ID `:id` zurück. Bei der `:id` handelt es sich um die ObjectID aus der MongoDB. Ein Place beinhaltet einen Array von Positions. Jede Position hat besteht aus einem Device und seinen koordinaten.
+Gibt den Place mit der ID `:id` zurück. Bei der `:id` handelt es sich um die ObjectID aus der MongoDB. Ein Place beinhaltet einen Array von Positions. Jede Position besteht aus einem Device und seinen Koordinaten.
 
 #### Header
 | Key           |              Value                 | 
@@ -370,7 +370,7 @@ Gibt alle Buchungen der in der query variable `deviceID` angefragten Devices als
 ```
 POST /booking
 ```
-Erzeugt eine Buchung in der Datenbank (MongoDB) und gibt ein ein JSON Objekt der id der angelegten Buchung zurück
+Erzeugt eine Buchung in der Datenbank (MongoDB) und gibt ein JSON Objekt der id der angelegten Buchung zurück
 
 #### Header
 | Key           |              Value                 | 
@@ -420,7 +420,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 #### Body
 ```JSON
 {
-      intermediateToken: intermediateToken
+      intermediateToken: [intermediateToken]
 }
 ```
 `intermediateToken` ist der über die Route `/auth/user` bezogene Token.
