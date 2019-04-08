@@ -447,3 +447,5 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 - [ ] Websocket für Realtimekokmmunikation implementieren (Push Benachtichtigungen für die App/Zugriffsgerät)
 - [ ] Erstellte Rechnung in Odoo bestätigen
 - [ ] App/Zugriffsgerät als Entität in MongoDB anlegen und separate API Keys hinterlegen. App Authentifitierung anpassen
+- [ ] Beendigung eines Nutzungsvorgangs erkennen (z.B. Ende des 3D Drucks durch geringeren Strom verbauch)
+- [ ] To be continued
