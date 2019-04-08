@@ -11,11 +11,13 @@ export default class DeviceBookingRepository extends BaseRepository<DeviceBookin
     return result;
   }
   async findBookingByDeviceID(deviceID: ObjectID): Promise<DeviceBooking> {
-    const result: DeviceBooking = await this.collection.findOne({ deviceID: deviceID });
+    const deviceObjectID = new ObjectID(deviceID)
+    const result: DeviceBooking = await this.collection.findOne({ deviceID: deviceObjectID });
     return result;
   }
   async findBookingByID(bookingID: ObjectID): Promise<DeviceBooking> {
-    const result: DeviceBooking = await this.collection.findOne({ _id: bookingID });
+    const bookingObjectID = new ObjectID(bookingID)
+    const result: DeviceBooking = await this.collection.findOne({ _id: bookingObjectID });
     return result;
   }
   async findBookingsByID(bookingIDs: Array<ObjectID>): Promise<DeviceBooking[]> {
