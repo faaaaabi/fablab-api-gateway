@@ -108,7 +108,8 @@ Openhab Doku: [link](https://www.openhab.org/docs/configuration/paperui.html)
 * Datei `default.sample.json` zweimal duplizieren
   * Eine Version wird in `development.json` umbenannt. Diese Version beinhaltet die Konfiguration für die Entwicklungsumgebung
   * Die zweite Version wird in `production.json` umbenannt. Sie enthält die Konfiguration für die Produktivumgebung.
-
+* Im Falle von `npm run dev` wird die Konfiguration `development.json`. Für `npm start` und `npm run prod` wird die Konfiguration `production.json` geladen.
+* Konfigurationsdateien anpassen
 
 ## Architecture
 
@@ -431,3 +432,18 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
     "status": "OK"
 }
 ```
+
+## TODO
+- [ ] POST, DELETE und PUT Routen für alle MongoDB Entitäten
+- [ ] Schemavaliierung der Requests
+- [ ] Fehlende Fehlermeldungen Ergänzen
+- [ ] Unit-/Integrationtests
+- [ ] Verwaltungsoberfläche (z.B. zum Anlegen von Devices, Produktreferenzen, Places usw.)
+- [ ] Debug Logs hinzufügen
+- [ ] Odoo hinter Interface verstecken (Zu Abstraktion im Service Layer)
+- [ ] Stromverbrauch aus openhab abfragen und mit in der Rechnung vermerken
+- [ ] Docker Image für das API-Gateway bauen
+- [ ] Init Script erstellen (Zur Vereinfachung des initalen Setups)
+- [ ] Websocket für Realtimekokmmunikation implementieren (Push Benachtichtigungen für die App/Zugriffsgerät)
+- [ ] Erstellte Rechnung in Odoo bestätigen
+- [ ] App/Zugriffsgerät als Entität in MongoDB anlegen und separate API Keys hinterlegen. App Authentifitierung anpassen
