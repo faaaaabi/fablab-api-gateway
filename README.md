@@ -271,4 +271,34 @@ Gibt den Place mit der ID `:id` zurück. Bei der `:id` handelt es sich um die Ob
 }
 ```
 
+```
+GET /bookings/?deviceID=[deviceID1]&deviceID=[deviceID2]
+```
+Gibt alle Buchungen der in der query variable `deviceID` angefragten Devices als Array zurück. Bei dem Wert von `deviceID` handelt es sich um die ObjectID aus der MongoDB des jeweiligen Devices.
+
+### Header
+| Key           |              Value                 | 
+|---------------|------------------------------------|
+| Authorization | Bearer [Token]                     |
+
+[Token] ist der unter `/auth/app` erworbene Tolen
+
+### Response
+```JSON
+[
+    {
+        "_id": "5ca0b779544bb57d50f6aa3d",
+        "deviceID": "5c95e60985c19400095d7d6d",
+        "userUID": "9D909C1E",
+        "startTime": 1554036601
+    },
+    {
+        "_id": "5ca0b960544bb57d50f6aa3f",
+        "deviceID": "5c95e67e85c19400095d7d73",
+        "userUID": "9D909C1E",
+        "startTime": 1554037088
+    }
+]
+```
+`startime` ist ein Unix Timestamp
 
