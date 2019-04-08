@@ -1,6 +1,7 @@
 const authRoutes = require('express').Router();
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+require('../../passport');
 const config = require('config');
 
 // Get JWT Secret
