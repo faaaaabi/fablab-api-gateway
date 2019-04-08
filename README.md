@@ -25,11 +25,13 @@ $ npm install
 ```bash
 $ npm run test
 ```
+**Info:** Die Tests sind nach einem größeren Refacotring nicht funktional
 
 ### Starten der Entwicklungsumgebung Umgebung
 ```bash
 $ npm run dev
 ```
+**Info:** Startet einen development Server mit live reloading
 
 ### Starten der Produktivumgebung
 Führt den letzten build im Ordner "dist" aus, falls vorhanden.
@@ -41,8 +43,15 @@ $ npm start
 ```bash
 $ npm run prod
 ```
+## Benötigte Drittkomponenten
+* openHAB [Docker](https://hub.docker.com/r/openhab/openhab/#running-from-compose-fileyml)
+* odoo [Docker](https://hub.docker.com/_/odoo/)
+  * Hat Postgres als abhängigkeit
+* MongoDB [Docker](https://hub.docker.com/_/mongo)
 
-## openHAB konfiguration
+Hier empfiehlt sich der einfacheit halber die Verwendung von `docker-compose`. Die verlinkten Seiten aus dem Docker Hub bieten fertige Vorlagen für docker-compose files an. Im Falle von odoo bindet dies auch Postgres mit ein
+
+## openHAB Konfiguration
 
 ### ZWave
 * Addon installieren
@@ -54,12 +63,12 @@ openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht ledeiglic
 
 ### Geräte anlegen
 * Things konfigurieren (z.B. zWave Steckdosen)
-* Thing Channel (z.B. Switch) einem Item zuweisen
+* Thing Channel (z.B. Switch) einem Item zuweisen.
 Openhab Doku: [link](https://www.openhab.org/docs/configuration/paperui.html)
 
 ## odoo konfiguration
 
-### Zusätliche Felder in den Kundenkontakten anlegen
+### Zusätzliche Felder in den Kundenkontakten anlegen
 1. Entwicklermodus öffnen im odoo Frontend öffnen
 2. Im Kontext Menü unter Felder anzeigen, folgende Felder anlegen
    1. x_RFID_Card_UUID , Type: String
@@ -93,24 +102,26 @@ Folgende Grafik zeigt die grobe Systemarchitektur:
 Folgende Grafik zeigt die Schichten und Komponenten der Software
 ![Architecture](./readme/softwareArchitecture.png)
 
+
 ## API
 
+### Authentification
 ```
 POST /auth/app
 ```
 Gibt bei erfolgreicher Authentifizierung einen Token für das Zugriffsgerät (Gerät) zurück
 
-### Header
+#### Header
 | Key          |              Value                 | 
 |--------------|:----------------------------------:|
 | content-type | application/x-www-form-urlencoded  |
 
-### Body
+#### Body
 `deviceID=[DeviceIdentifier]&apiKey=[APIKey]` 
 
 Der API wird in der Config gesetzt. Device Identifier ist momentan noch hardcodiert auf "AccessDevice1". Die Authetifizierung der Zugriffsgeräte ist bestand archtektureller Veränderungen. Der Plan ist hier, dass Geräte einem Place zugewiesen werden und jeweils einen eigenen API erhalten
 
-### Response
+#### Response
 ```JSON
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VJRCI6IkFjY2Vzc0RldmljZTEiLCJpYXQiOjE1NTQ3MDI5NzN9.80jRaKvmxVsunwk5sg2fmj3290EQ5G2KxIdZPVmNtRY",
@@ -124,17 +135,17 @@ POST /auth/user
 ```
 Erezeugt ein intermediate Token für das Buchen eines Gerätes (Gültigkeit 20 Sekunden), in der ein Gerät gebucht werden kann
 
-### Header
+#### Header
 | Key          |              Value                 | 
 |--------------|------------------------------------|
 | content-type | application/x-www-form-urlencoded  |
 
-### Body
+#### Body
 `userID=[UserUUID]&apiKey=[ApiKey]` 
 
 [UserUUID] in odoo hinterlegte RFID_UUID, [APIKey] wie oben
 
-### Response
+#### Response
 ```JSON
 {
     "user": {
@@ -149,19 +160,20 @@ Erezeugt ein intermediate Token für das Buchen eines Gerätes (Gültigkeit 20 S
 
 ----------------------
 
+### Devices
 ```
 GET /device/:id
 ```
 Gibt ein einzelnes Device mit der ID `:id` zurück. Bei der `:id` handelt es sich um die ObjectID aus der MongoDB
 
-### Header
+#### Header
 | Key           |              Value                 | 
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
 [Token] ist der unter `/auth/app` erworbene Tolen
 
-### Response
+#### Response
 ```JSON
 {
     "devices": {
@@ -219,19 +231,20 @@ Gibt alle in der query variable `id` angefragten Devices als Array zurück. Bei 
 
 ----------------------
 
+### Place
 ```
 GET /place/:id
 ```
 Gibt den Place mit der ID `:id` zurück. Bei der `:id` handelt es sich um die ObjectID aus der MongoDB. Ein Place beinhaltet einen Array von Positions. Jede Position hat besteht aus einem Device und seinen koordinaten.
 
-### Header
+#### Header
 | Key           |              Value                 | 
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
 [Token] ist der unter `/auth/app` erworbene Tolen
 
-### Respone
+#### Respone
 ```JSON
 {
     "_id": "5c9c63fe85c19400095d7d7b",
@@ -272,19 +285,20 @@ Gibt den Place mit der ID `:id` zurück. Bei der `:id` handelt es sich um die Ob
 ```
 ----------------------
 
+### Bookings
 ```
 GET /booking/:id
 ```
 Gibt die Buchung mit der ID `:id` zurück. Bei der `:id` handelt es sich um die ObjectID aus der MongoDB.
 
-### Header
+#### Header
 | Key           |              Value                 | 
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
 [Token] ist der unter `/auth/app` erworbene Tolen
 
-### Response
+#### Response
 ```JSON
 {
     "_id": "5ca0b960544bb57d50f6aa3f",
@@ -300,14 +314,14 @@ GET /bookings/?deviceID=[deviceID1]&deviceID=[deviceID2]
 ```
 Gibt alle Buchungen der in der query variable `deviceID` angefragten Devices als Array zurück. Bei dem Wert von `deviceID` handelt es sich um die ObjectID aus der MongoDB des jeweiligen Devices.
 
-### Header
+#### Header
 | Key           |              Value                 | 
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
 [Token] ist der unter `/auth/app` erworbene Tolen
 
-### Response
+#### Response
 ```JSON
 [
     {
@@ -333,7 +347,7 @@ POST /booking
 ```
 Erzeugt eine Buchung in der Datenbank (MongoDB) und gibt ein ein JSON Objekt der id der angelegten Buchung zurück
 
-### Header
+#### Header
 | Key           |              Value                 | 
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
@@ -342,7 +356,7 @@ Erzeugt eine Buchung in der Datenbank (MongoDB) und gibt ein ein JSON Objekt der
 
 [Token] ist der unter `/auth/app` erworbene Tolen
 
-### Body
+#### Body
 ```JSON
 {
       deviceID: deviceID,
@@ -353,7 +367,7 @@ Erzeugt eine Buchung in der Datenbank (MongoDB) und gibt ein ein JSON Objekt der
 `deviceID` ist die ObjectID (_id) des Devices aus MongoDB. `userUID` die in odoo hinterlegte RFID UUID. `intermediateToken` ist der über die Route `/auth/user` bezogene Token.
 
 
-### Response
+#### Response
 ```JSON
 {
     "status": "OK",
@@ -369,7 +383,7 @@ DELETE /booking/:id
 ```
 Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 
-### Header
+#### Header
 | Key           |              Value                 | 
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
@@ -378,7 +392,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 
 [Token] ist der unter `/auth/app` erworbene Tolen
 
-### Body
+#### Body
 ```JSON
 {
       intermediateToken: intermediateToken
@@ -387,7 +401,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 `intermediateToken` ist der über die Route `/auth/user` bezogene Token.
 
 
-### Response
+#### Response
 ```JSON
 {
     "status": "OK"
