@@ -48,6 +48,7 @@ $ npm run prod
 * odoo [Docker](https://hub.docker.com/_/odoo/)
   * Hat Postgres als abhängigkeit
 * MongoDB [Docker](https://hub.docker.com/_/mongo)
+  * Beinhaltet bei der Verwendung des vorgeschlagenen docker-compose files `mongo-express` (ähnliche wie phpMyAdmin für MySQL). **Welches im folgenden bei der Erstellung der nötigen Collections und Dokumente sehr hilfreich ist**
 
 Hier empfiehlt sich der einfacheit halber die Verwendung von `docker-compose`. Die verlinkten Seiten aus dem Docker Hub bieten fertige Vorlagen für docker-compose files an. Im Falle von odoo bindet dies auch Postgres mit ein
 
@@ -61,7 +62,7 @@ openHAB kommt mit einer REST API. der nachfolgende Schritt vereinfacht ledeiglic
 * Rest API Documentation installieren
   * Addons -> Misc -> REST Documentation 
 
-### Geräte anlegen
+### Things anlegen
 * Things konfigurieren (z.B. zWave Steckdosen)
 * Thing Channel (z.B. Switch) einem Item zuweisen.
 Openhab Doku: [link](https://www.openhab.org/docs/configuration/paperui.html)
@@ -90,18 +91,41 @@ Openhab Doku: [link](https://www.openhab.org/docs/configuration/paperui.html)
   </group>
 </page>
 ``` 
+### Artikel für Maschinen/Geräte-Stunden anlegen
+* Artikel als Serviceleistung alegen unter `Lager->Stammdaten->Produkte`
+  * Die odoo Artikel ID lässt sich aus der URL in der Stammdatenansicht des Produktes entnehmen
+
+## Datenmodell in MongoDB erstellen
+* Datenbank in MongoDB erstellen
+* Collections anlegen
+  * Collections aus dem Order `mongo-sample-collections` importieren
+* Die Collection `devices` enthält Devices
+  * Diese sind mit den in openhab angelegeten `Items` abzugleichen. Die Referenz für das openhab Item, ist dessen Name. Dieser ist in der `devices` Collection im `actor` Object unter `indentifier` einzutragen. Weitere Devices einfach in Form neuer Dokumente anlegen
+* `productID` in der Collection `productReferences` durch die Artikel ID des zuvor anglegten Artikels ersetzen.
+
+## Konfiguration anpassen
+
+* Datei `default.sample.json` zweimal duplizieren
+  * Eine Version wird in `development.json` umbenannt. Diese Version beinhaltet die Konfiguration für die Entwicklungsumgebung
+  * Die zweite Version wird in `production.json` umbenannt. Sie enthält die Konfiguration für die Produktivumgebung.
+
 
 ## Architecture
 
 ### Systemarchitektur
 Folgende Grafik zeigt die grobe Systemarchitektur:
-
 ![Architecture](./readme/architectureV2.png)
 
 ### Applikationsarchitektur
 Folgende Grafik zeigt die Schichten und Komponenten der Software
 ![Architecture](./readme/softwareArchitecture.png)
 
+### Datenmodell (MongoDB)
+* place ----1:n---> device
+* deviceBooking ---1:1---> device
+* producReference ---1:n---> device
+
+Grafik folgt
 
 ## API
 

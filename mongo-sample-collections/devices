@@ -1,0 +1,3 @@
+{"_id":{ "$oid": "5c98783926b4ff0006c080c2" },"deviceName":"3D Drucker 2","productReferenceID":{ "$oid": "5c9a744e5f5a5f0006b29aa6" },"actor":{"identifier":"3D_Drucker_2","platformIdentifier":"openhab"},"requiresSequrityConfirmation":false}
+{"_id":{ "$oid": "5c98785526b4ff0006c080c4" },"deviceName":"3D Drucker 3","productReferenceID":{ "$oid": "5c9a744e5f5a5f0006b29aa6" },"actor":{"identifier":"3D_Drucker_3","platformIdentifier":"openhab"},"requiresSequrityConfirmation":false}
+{"_id":{ "$oid": "5c98786726b4ff0006c080c6" },"deviceName":"3D Drucker 4","productReferenceID":{ "$oid": "5c9a744e5f5a5f0006b29aa6" },"actor":{"identifier":"3D_Drucker_4","platformIdentifier":"openhab"},"requiresSequrityConfirmation":false}

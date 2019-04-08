@@ -1,0 +1,1 @@
+{"_id":{ "$oid": "5c988aefdb62b50007f2340a" },"placeName":"Regal 1","placeLabel":"Regal 1","positions":[{"deviceID":{ "$oid": "5c98783926b4ff0006c080c2" },"coordinates":[1,0]},{"deviceID":{ "$oid": "5c98785526b4ff0006c080c4" },"coordinates":[0,1]},{"deviceID":{ "$oid": "5c98786726b4ff0006c080c6" },"coordinates":[2,1]}]}
