@@ -201,7 +201,7 @@ Gibt ein einzelnes Device mit der ID `:id` zurück. Bei der `:id` handelt es sic
 #### Response
 ```JSON
 {
-    "devices": {
+    "device": {
         "_id": "5c95e60985c19400095d7d6d",
         "deviceName": "3D Drucker 2",
         "productReferenceID": "5c9c623a85c19400095d7d79",
