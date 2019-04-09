@@ -454,4 +454,4 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 ## LICENSE
 Unter Vorbehalt*: [MIT License](https://opensource.org/licenses/MIT)
 
-*Bis Absichtserkärung aufgesetzt
+*Bis die Absichtserkärung aufgesetzt ist
