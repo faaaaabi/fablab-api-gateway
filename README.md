@@ -449,6 +449,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 - [ ] App/Zugriffsgerät als Entität in MongoDB anlegen und separate API Keys hinterlegen. App Authentifitierung anpassen
 - [ ] Beendigung eines Nutzungsvorgangs erkennen (z.B. Ende des 3D Drucks durch geringeren Strom verbauch)
 - [ ] Fehlermeldung für das Nichtfinden von Dokumenten in der DB überarbeiten (Hier wird besipielsweise im Fall eines leeren DB Results kein 404 zurückgegeben)
+- [ ] JSON Responses vereinheitlichen (Keine Verschachtelten JSON wie z.B. `{ devices: { key: value ... } }` bei `GET /device/:id`. Stattdessen `{ key: value }` )
 - [ ] To be continued
 
 ## LICENSE
