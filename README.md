@@ -18,7 +18,7 @@ $ npm install
 ```
 
 ### Konfiguration anpassen
-* Unter ./config/ eine Kopie von "default.sample.json" anlegen und zu "default.json" umbennen
+* Unter ./config/ eine Kopie von "default.sample.json" anlegen und zu "default.json" umbenennen
 * Die jeweiligen Parameter anpassen
 
 ### Tests ausführen
@@ -50,7 +50,7 @@ $ npm run prod
 * MongoDB [Docker](https://hub.docker.com/_/mongo)
   * Beinhaltet bei der Verwendung des vorgeschlagenen docker-compose files `mongo-express` (ähnliche wie phpMyAdmin für MySQL). **Welches im folgenden bei der Erstellung der nötigen Collections und Dokumente sehr hilfreich ist**
 
-Hier empfiehlt sich der einfacheit halber die Verwendung von `docker-compose`. Die verlinkten Seiten aus dem Docker Hub bieten fertige Vorlagen für docker-compose files an. Im Falle von odoo bindet dies auch Postgres mit ein
+Hier empfiehlt sich der Einfachheit halber die Verwendung von `docker-compose`. Die verlinkten Seiten aus dem Docker Hub bieten fertige Vorlagen für docker-compose files an. Im Falle von odoo bindet dies auch Postgres mit ein
 
 ## openHAB Konfiguration
 
@@ -77,7 +77,7 @@ Openhab Doku: [link](https://www.openhab.org/docs/configuration/paperui.html)
    
 ### View der Kontaktansicht anpassen
 1. Reiter in der Kundenkarteikarte mit Fablab spezifischen Feldern anlegen
-   1. Enwticklermodus öffnen
+   1. Entwicklermodus öffnen
    2. Im Kontext Menü unter Edit View: Formular, im XML des Views das Elternelement `<notebook colspan="4">` um folgendes Pageelement erweitern:
 ```xml
 <page name="fablab_settings" string="Fablab Einstellungen">
@@ -101,7 +101,7 @@ Openhab Doku: [link](https://www.openhab.org/docs/configuration/paperui.html)
   * Collections aus dem Order `mongo-sample-collections` importieren
 * Die Collection `devices` enthält Devices
   * Diese sind mit den in openhab angelegeten `Items` abzugleichen. Die Referenz für das openhab Item, ist dessen Name. Dieser ist in der `devices` Collection im `actor` Object unter `indentifier` einzutragen. Weitere Devices einfach in Form neuer Dokumente anlegen
-* `productID` in der Collection `productReferences` durch die Artikel ID des zuvor anglegten Artikels ersetzen.
+* `productID` in der Collection `productReferences` durch die Artikel ID des zuvor angelegten Artikels ersetzen.
 
 ## Konfiguration anpassen
 
@@ -144,7 +144,7 @@ Gibt bei erfolgreicher Authentifizierung einen Token für das Zugriffsgerät (Ge
 #### Body
 `deviceID=[DeviceIdentifier]&apiKey=[APIKey]` 
 
-Der API Key wird in der Config gesetzt. Device Identifier ist momentan noch hardcodiert auf "AccessDevice1". Die Authetifizierung der Zugriffsgeräte ist bestand architektureller Veränderungen. Der Plan ist hier, dass Geräte einem Place zugewiesen werden und jeweils einen eigenen API erhalten
+Der API Key wird in der Config gesetzt. Device Identifier ist momentan noch hardcoded auf "AccessDevice1". Die Authentifizierung der Zugriffsgeräte ist bestand architektureller Veränderungen. Der Plan ist hier, dass Geräte einem Place zugewiesen werden und jeweils einen eigenen API erhalten
 
 #### Response
 ```JSON
@@ -158,7 +158,7 @@ Der API Key wird in der Config gesetzt. Device Identifier ist momentan noch hard
 ```
 POST /auth/user
 ```
-Erezeugt ein intermediate Token für das Buchen eines Gerätes (Gültigkeit 20 Sekunden), in der ein Gerät gebucht werden kann
+Erzeugt ein intermediate Token für das Buchen eines Gerätes (Gültigkeit 20 Sekunden), in der ein Gerät gebucht werden kann
 
 #### Header
 | Key          |              Value                 | 
@@ -196,7 +196,7 @@ Gibt ein einzelnes Device mit der ID `:id` zurück. Bei der `:id` handelt es sic
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
-[Token] ist der unter `/auth/app` erworbene Tolen
+[Token] ist der unter `/auth/app` erworbene Token
 
 #### Response
 ```JSON
@@ -226,7 +226,7 @@ Gibt alle in der query variable `id` angefragten Devices als Array zurück. Bei 
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
-[Token] ist der unter `/auth/app` erworbene Tolen
+[Token] ist der unter `/auth/app` erworbene Token
 
 ### Response
 ```JSON
@@ -267,7 +267,7 @@ Gibt den Place mit der ID `:id` zurück. Bei der `:id` handelt es sich um die Ob
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
-[Token] ist der unter `/auth/app` erworbene Tolen
+[Token] ist der unter `/auth/app` erworbene Token
 
 #### Respone
 ```JSON
@@ -321,7 +321,7 @@ Gibt die Buchung mit der ID `:id` zurück. Bei der `:id` handelt es sich um die 
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
-[Token] ist der unter `/auth/app` erworbene Tolen
+[Token] ist der unter `/auth/app` erworbene Token
 
 #### Response
 ```JSON
@@ -344,7 +344,7 @@ Gibt alle Buchungen der in der query variable `deviceID` angefragten Devices als
 |---------------|------------------------------------|
 | Authorization | Bearer [Token]                     |
 
-[Token] ist der unter `/auth/app` erworbene Tolen
+[Token] ist der unter `/auth/app` erworbene Token
 
 #### Response
 ```JSON
@@ -379,7 +379,7 @@ Erzeugt eine Buchung in der Datenbank (MongoDB) und gibt ein JSON Objekt der id 
 | Accept        | application/json                   |
 | Content-Type  | application/json                   |
 
-[Token] ist der unter `/auth/app` erworbene Tolen
+[Token] ist der unter `/auth/app` erworbene Token
 
 #### Body
 ```JSON
@@ -415,7 +415,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 | Accept        | application/json                   |
 | Content-Type  | application/json                   |
 
-[Token] ist der unter `/auth/app` erworbene Tolen
+[Token] ist der unter `/auth/app` erworbene Token
 
 #### Body
 ```JSON
@@ -435,7 +435,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 
 ## TODO
 - [ ] POST, DELETE und PUT Routen für alle MongoDB Entitäten
-- [ ] Schemavaliierung der Requests
+- [ ] Schemavaliierung der Requests (Valdierung von JSON Schemata und Form von Form Parametern)
 - [ ] Fehlende Fehlermeldungen Ergänzen
 - [ ] Unit-/Integrationtests
 - [ ] Verwaltungsoberfläche (z.B. zum Anlegen von Devices, Produktreferenzen, Places usw.)
@@ -448,6 +448,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 - [ ] Erstellte Rechnung in Odoo bestätigen
 - [ ] App/Zugriffsgerät als Entität in MongoDB anlegen und separate API Keys hinterlegen. App Authentifitierung anpassen
 - [ ] Beendigung eines Nutzungsvorgangs erkennen (z.B. Ende des 3D Drucks durch geringeren Strom verbauch)
+- [ ] Fehlermeldung für das Nichtfinden von Dokumenten in der DB überarbeiten (Hier wird besipielsweise im Fall eines leeren DB Results kein 404 zurückgegeben)
 - [ ] To be continued
 
 ## LICENSE
