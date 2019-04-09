@@ -30,7 +30,7 @@
     "all": true
   },
   "author": "Fabian meyer <f@bian-meyer.de>",
-  "license": "ISC",
+  "license": "MIT",
   "engines": {
     "node": ">= 11.10.0"
   },
