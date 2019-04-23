@@ -25,7 +25,7 @@ $ npm install
 ```bash
 $ npm run test
 ```
-**Info:** Die Tests sind nach einem größeren Refactoring nicht funktional
+**Info:** Die Tests sind nach einem größeren Refactoring nur zum Teil funktional
 
 ### Starten der Entwicklungsumgebung Umgebung
 ```bash
@@ -125,6 +125,7 @@ Folgende Grafik zeigt die Schichten und Komponenten der Software
 * place ----1:n---> device
 * deviceBooking ---1:1---> device
 * producReference ---1:n---> device
+* accessDevice ---1:1---> place
 
 Grafik folgt
 
@@ -145,6 +146,8 @@ Gibt bei erfolgreicher Authentifizierung einen Token für das Zugriffsgerät (Ge
 `deviceID=[DeviceIdentifier]&apiKey=[APIKey]` 
 
 ~~Der API Key wird in der Config gesetzt. Device Identifier ist momentan noch hardcoded auf "AccessDevice1". Die Authentifizierung der Zugriffsgeräte ist bestand architektureller Veränderungen. Der Plan ist hier, dass Geräte einem Place zugewiesen werden und jeweils einen eigenen API erhalten~~
+Der API Key wird in der Entität `AccessDevice` in der Datenbank gesetzt.
+
 
 #### Response
 ```JSON
@@ -437,7 +440,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 - [ ] POST, DELETE und PUT Routen für alle MongoDB Entitäten
 - [ ] Schemavaliierung der Requests (Valdierung von JSON Schemata und Form von Form Parametern)
 - [ ] Fehlende Fehlermeldungen Ergänzen
-- [ ] Unit-/Integrationtests
+- [ ] Unit-/Integrationtests vervollständigen
 - [ ] Verwaltungsoberfläche (z.B. zum Anlegen von Devices, Produktreferenzen, Places usw.)
 - [ ] Debug Logs hinzufügen
 - [ ] Odoo hinter Interface verstecken (Zu Abstraktion im Service Layer)
@@ -446,7 +449,7 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 - [ ] Init Script erstellen (Zur Vereinfachung des initalen Setups)
 - [ ] Websocket für Realtimekokmmunikation implementieren (Push Benachtichtigungen für die App/Zugriffsgerät)
 - [ ] Erstellte Rechnung in Odoo bestätigen
-- [ ] App/Zugriffsgerät als Entität in MongoDB anlegen und separate API Keys hinterlegen. App Authentifitierung anpassen
+- [x] App/Zugriffsgerät als Entität in MongoDB anlegen und separate API Keys hinterlegen. App Authentifitierung anpassen
 - [ ] Beendigung eines Nutzungsvorgangs erkennen (z.B. Ende des 3D Drucks durch geringeren Strom verbauch)
 - [ ] Fehlermeldung für das Nichtfinden von Dokumenten in der DB überarbeiten (Hier wird besipielsweise im Fall eines leeren DB Results kein 404 zurückgegeben)
 - [ ] JSON Responses vereinheitlichen (Keine Verschachtelten JSON wie z.B. `{ devices: { key: value ... } }` bei `GET /device/:id`. Stattdessen `{ key: value }` )
