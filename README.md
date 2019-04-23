@@ -144,7 +144,7 @@ Gibt bei erfolgreicher Authentifizierung einen Token für das Zugriffsgerät (Ge
 #### Body
 `deviceID=[DeviceIdentifier]&apiKey=[APIKey]` 
 
-Der API Key wird in der Config gesetzt. Device Identifier ist momentan noch hardcoded auf "AccessDevice1". Die Authentifizierung der Zugriffsgeräte ist bestand architektureller Veränderungen. Der Plan ist hier, dass Geräte einem Place zugewiesen werden und jeweils einen eigenen API erhalten
+~~Der API Key wird in der Config gesetzt. Device Identifier ist momentan noch hardcoded auf "AccessDevice1". Die Authentifizierung der Zugriffsgeräte ist bestand architektureller Veränderungen. Der Plan ist hier, dass Geräte einem Place zugewiesen werden und jeweils einen eigenen API erhalten~~
 
 #### Response
 ```JSON

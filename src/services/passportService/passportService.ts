@@ -12,8 +12,6 @@ import UserService from '../user/UserService';
 import UnauthorizedError from '../../errors/UnauthorizedError';
 import AccessDevice from "../../entities/AccessDevice";
 
-// Get API Key
-const apiKey: string = config.get('JWT').apiKey;
 // Get JWT Secret
 const jwtSecret: string = config.get('JWT').secret;
 
