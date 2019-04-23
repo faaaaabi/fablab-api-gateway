@@ -67,6 +67,7 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "boom": "^7.3.0",
+    "bson": "^4.0.2",
     "config": "^2.0.1",
     "express": "^4.16.4",
     "express-async-errors": "^3.1.1",

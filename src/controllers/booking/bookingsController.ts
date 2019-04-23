@@ -6,7 +6,6 @@ const getBookingsByDeviceIDs = (deviceBookingService: DeviceBookingService) => a
   try {
     const deviceIDs = req.query.deviceID;
     const deviceBookings: DeviceBooking[] = await deviceBookingService.findBookingsByDeviceID(deviceIDs);
-    console.log('deviceBookings:', deviceBookings);
     res.status(200).send(deviceBookings);
   } catch (e) {
     next(e);

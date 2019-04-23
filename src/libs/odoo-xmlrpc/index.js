@@ -49,7 +49,7 @@ var Odoo = function (config) {
                   reject(error)
                 }
                 if(!value){
-                    reject({ message: "No UID returned from authentication." })
+                    reject({ message: "Odoo XML RPC: Authentication failed. No UID returned from authentication." })
                 }
                 this.uid = value;
                 resolve();

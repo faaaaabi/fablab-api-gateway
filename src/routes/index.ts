@@ -8,10 +8,6 @@ import bookingRoutes from './booking/bookingRoutes';
 import bookingsRoutes from './booking/bookingsRoutes';
 import placeRoutes from './place/placeRoutes';
 
-// Load passport and authentication configuration
-const passport = require('passport');
-require('../passport');
-
 // Load Config & necessary parameters
 const config = require('config');
 
@@ -27,21 +23,25 @@ import ActorService from '../interfaces/ActorService';
 import OpenhabService from '../services/actor/OpenhabService';
 import PlaceService from '../services/place/PlaceService';
 import UserService from '../services/user/UserService';
+import PassportService from "../services/passportService/passportService";
 
 
 // Database and repository imports
-import { MongoClient, Db } from 'mongodb';
+import {MongoClient, Db} from 'mongodb';
 import DeviceBookingRepository from '../repositories/DeviceBookingRepository';
 import PlaceRepository from '../repositories/PlaceRepository';
 import ProductReferenceRepository from '../repositories/ProductReferenceRepository';
 import DeviceRepository from '../repositories/DeviceRepository';
+import AccessDeviceService from "../services/accessDevice/AccessDeviceService";
+import AccessDeviceRepository from "../repositories/AccessDeviceRepository";
+
 
 const init = async (app: express.Application) => {
   /**
    * Database
    */
   let db: Db;
-  const { host, port, user, password, database } = config.get('mongodb');
+  const {host, port, user, password, database} = config.get('mongodb');
   const dbConnection = await MongoClient.connect(`mongodb://${user}:${password}@${host}:${port}/`, {
     useNewUrlParser: true
   });
@@ -50,7 +50,7 @@ const init = async (app: express.Application) => {
   /**
    * Service initialization and dependency injection
    */
-  // User service Init
+    // User service Init
   const userService = new UserService(new OdooClient(new odooXmlRpc(config.get('odoo-client'))));
 
   // Place service init
@@ -70,24 +70,31 @@ const init = async (app: express.Application) => {
     userService
   );
 
-  app.use('/device', passport.authenticate('jwt', { session: false }), deviceRoutes(deviceService));
+  // AccessDeviceService Init
+  const accessDeviceService = new AccessDeviceService(new AccessDeviceRepository(db, 'accessDevices'))
+
+  // Passport Service Init
+  const passportService = new PassportService(userService, accessDeviceService);
+  const passportInstance = passportService.initStragies();
+
+  app.use('/device', passportInstance.authenticate('jwt', {session: false}), deviceRoutes(deviceService));
   app.use(
     '/devices',
-    passport.authenticate('jwt', { session: false }),
+    passportInstance.authenticate('jwt', {session: false}),
     devicesRoutes(deviceService)
   );
   app.use(
     '/booking',
-    passport.authenticate('jwt', { session: false }),
+    passportInstance.authenticate('jwt', {session: false}),
     bookingRoutes(deviceBookingService)
   );
   app.use(
     '/bookings',
-    passport.authenticate('jwt', { session: false }),
+    passportInstance.authenticate('jwt', {session: false}),
     bookingsRoutes(deviceBookingService)
   );
-  app.use('/place', passport.authenticate('jwt', { session: false }), placeRoutes(placeService));
-  app.use('/auth', authRoutes);
+  app.use('/place', passportInstance.authenticate('jwt', {session: false}), placeRoutes(placeService));
+  app.use('/auth', authRoutes(passportService));
 };
 
-export default { init };
+export default {init};
