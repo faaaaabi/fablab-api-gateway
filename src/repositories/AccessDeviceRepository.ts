@@ -8,4 +8,9 @@ export default class AccessDeviceRepository extends BaseRepository<Place> {
         const result: AccessDevice = await this.collection.findOne({identifier});
         return result;
     }
+
+    async findAccessDeviceByApiKey(apiKey: string): Promise<AccessDevice> {
+        const result: AccessDevice = await this.collection.findOne({apiKey});
+        return result;
+    }
 }

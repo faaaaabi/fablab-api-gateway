@@ -37,9 +37,19 @@ class PassportService {
           try {
             const user: object = await this.userService.getUserDataByUUID(userID);
             const isAllowedToUseMachine: boolean = await this.userService.isUserAllowedToUse(userID);
-            if (user && clientApiKey === apiKey && isAllowedToUseMachine) {
-              return cb(null, user, { message: 'Logged In Successfully' });
+            const accessDevice = Object.assign(
+              new AccessDevice(),
+              await this.accessDeviceService.getAccessDeviceByApiKey(clientApiKey)
+            );
+            // @TODO: Rethink APIKey handling
+            if(accessDevice) {
+              if(accessDevice.apiKey) {
+                if (user && clientApiKey === accessDevice.apiKey && isAllowedToUseMachine) {
+                  return cb(null, user, { message: 'Logged In Successfully' });
+                }
+              }
             }
+
             return cb(new UnauthorizedError('Either credentials or api key are wrong'));
           } catch (e) {
             cb(e);
@@ -59,8 +69,10 @@ class PassportService {
               new AccessDevice(),
               await this.accessDeviceService.getAccessDeviceByIdentifier(accessDeviceIdentifier)
             );
-            if (accessDevice.apiKey === clientApiKey) {
-              return cb(null, accessDevice, { message: 'Logged In Successfully' });
+            if(accessDevice) {
+              if (accessDevice.apiKey === clientApiKey) {
+                return cb(null, accessDevice, {message: 'Logged In Successfully'});
+              }
             }
             return cb(new UnauthorizedError('Either credentials or api key are wrong'));
           } catch (e) {

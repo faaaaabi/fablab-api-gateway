@@ -13,6 +13,11 @@ class AccessDeviceService {
     return accessDevice;
   }
 
+  public async getAccessDeviceByApiKey(accessDeviceApiKey: string): Promise<AccessDevice> {
+    const accessDevice: AccessDevice = await this.accessDeviceRepository.findAccessDeviceByApiKey(accessDeviceApiKey);
+    return accessDevice;
+  }
+
 }
 
 export default AccessDeviceService;
