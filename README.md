@@ -456,4 +456,4 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 - [ ] To be continued
 
 ## LICENSE
-License Pending
+MIT - see LICENSE file
