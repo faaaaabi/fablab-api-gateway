@@ -1,6 +1,8 @@
 # Fablab Api Gateway
 Api Gateway für die Zugriffsteuerung des Fablabs über Odoo und openHAB
 
+**Note: This work in progress. Everything is still in flux and things may not work as expected**
+
 ## Usage
 
 ### node.js installieren
