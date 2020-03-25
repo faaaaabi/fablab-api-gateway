@@ -458,4 +458,4 @@ Beendet eine Buchung mit der ID `:id` und erzeugt eine Rechnung in odoo
 - [ ] To be continued
 
 ## LICENSE
-MIT - see LICENSE file
+GNU GPLv3 - see LICENSE file
